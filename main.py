@@ -1,6 +1,5 @@
 """
-Finn.no Oppussingsobjekt-scanner
-Full-stack app: backend + frontend i én server
+Oppside — Finn oppussingsobjekter med potensial
 """
 
 import os, re, time
@@ -8,11 +7,11 @@ import requests
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
 
-app = FastAPI(title="Finn-scanner")
+app = FastAPI(title="Oppside")
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,12 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve static files (frontend)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept-Language": "nb-NO,nb;q=0.9",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+    "Accept-Language": "nb-NO,nb;q=0.9,no;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
 OPPUSSING_STRONG = [
@@ -41,7 +40,7 @@ OPPUSSING_STRONG = [
 OPPUSSING_WEAK = [
     "potensial", "mye potensiale", "oppussingsbehov", "noe oppussing",
     "noe oppussingsbehov", "litt slitt", "enkel standard", "mod.behov",
-    "moderniseringsbehov", "slitt", "gammel", "original", "trenger",
+    "moderniseringsbehov", "slitt", "gammel", "trenger",
     "behov for", "mulighet for", "kan oppgraderes", "godt potensiale",
     "stort potensial", "stor oppside", "utrolig potensial",
 ]
@@ -50,7 +49,7 @@ POSITIVE = [
     "hjørne", "toppetasje", "penthouse", "utsikt", "sjøutsikt",
     "sørvest", "sørvendt", "vestvendt", "balkong", "terrasse",
     "takterrasse", "heis", "garasje", "parkering", "sentralt",
-    "strand", "strandlinje", "innglasset", "rooftop",
+    "strand", "strandlinje", "innglasset",
 ]
 
 
@@ -107,11 +106,43 @@ def parse_article(art):
                     result["property_info"] = txt
                     break
 
-    org = art.find("span", class_=lambda x: x and "whitespace-normal" in x if x else False)
-    result["megler"] = org.get_text(strip=True) if org else ""
+    return result
 
-    visning = art.find("span", class_=lambda x: x and "rounded-full" in x if x else False)
-    result["visning"] = visning.get_text(strip=True) if visning else ""
+def parse_sold_article(art):
+    result = {}
+    h2 = art.find("h2")
+    if h2:
+        result["title"] = h2.get_text(strip=True)
+
+    link = art.find("a")
+    if link:
+        href = link.get("href", "")
+        result["url"] = href if href.startswith("http") else f"https://www.finn.no{href}"
+
+    img = art.find("img")
+    result["image"] = img.get("src", "") if img else ""
+
+    loc_div = art.find("div", class_=lambda x: x and "location" in x.lower() if x else False)
+    result["location"] = loc_div.get_text(strip=True) if loc_div else ""
+
+    all_text = art.get_text(" ", strip=True)
+
+    price_m = re.search(r"Solgt for\s*([\d\s\xa0]+)\s*kr", all_text)
+    if not price_m:
+        price_m = re.search(r"([\d\s\xa0]{6,})\s*kr", all_text)
+    if price_m:
+        result["sold_price"] = parse_price(price_m.group(1))
+
+    size_m = re.search(r"(\d+)\s*m²", all_text)
+    if size_m:
+        result["size_int"] = int(size_m.group(1))
+        result["size"] = f"{size_m.group(1)} m²"
+
+    date_m = re.search(r"Solgt\s+(\d{1,2}\.\s*\w+\s*\d{4}|\d{4})", all_text)
+    result["sold_date"] = date_m.group(1) if date_m else ""
+
+    if result.get("sold_price") and result.get("size_int") and result["size_int"] > 0:
+        result["pris_per_kvm"] = round(result["sold_price"] / result["size_int"])
 
     return result
 
@@ -130,7 +161,7 @@ def score_listing(listing, area_avg_sqm=None):
     for kw in OPPUSSING_WEAK:
         if kw in title:
             score += 15
-            reasons.append(f"⚠️ Oppussingssignal: «{kw}»")
+            reasons.append(f"⚠️ Potensial: «{kw}»")
             break
 
     price = listing.get("price_int")
@@ -160,7 +191,7 @@ def score_listing(listing, area_avg_sqm=None):
     pos = [kw for kw in POSITIVE if kw in title]
     if pos:
         score += len(pos) * 3
-        reasons.append(f"✨ Positive trekk: {', '.join(pos)}")
+        reasons.append(f"✨ {', '.join(pos)}")
 
     if "selveier" in desc:
         score += 5
@@ -170,9 +201,15 @@ def score_listing(listing, area_avg_sqm=None):
     listing["reasons"] = reasons
     return listing
 
-def fetch_page(url, params):
+def fetch_listings(lokasjon=None, maks_pris=None, min_storrelse=None, boligtype=None, page=1):
+    params = {"sort": "PRICE_SQM_ASC", "is_new_property": "false", "page": str(page)}
+    if lokasjon: params["location"] = lokasjon
+    if maks_pris: params["price_to"] = str(maks_pris)
+    if min_storrelse: params["area_from"] = str(min_storrelse)
+    if boligtype: params["property_type"] = boligtype
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=15)
+        r = requests.get("https://www.finn.no/realestate/homes/search.html",
+                         headers=HEADERS, params=params, timeout=15)
         r.raise_for_status()
         soup = BeautifulSoup(r.text, "html.parser")
         arts = soup.find_all("article", class_=lambda x: x and "sf-search-ad" in x)
@@ -181,12 +218,31 @@ def fetch_page(url, params):
         print(f"Fetch error: {e}")
         return []
 
+def fetch_sold(lokasjon=None, limit=20):
+    params = {"sort": "PUBLISHED_DESC"}
+    if lokasjon: params["location"] = lokasjon
+    try:
+        r = requests.get("https://www.finn.no/realestate/sold/search.html",
+                         headers=HEADERS, params=params, timeout=15)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        arts = soup.find_all("article")
+        results = []
+        for a in arts[:limit]:
+            parsed = parse_sold_article(a)
+            if parsed.get("title") and parsed.get("sold_price"):
+                results.append(parsed)
+        return results
+    except Exception as e:
+        print(f"Sold fetch error: {e}")
+        return []
+
 def get_area_avg(lokasjon=None):
     params = {"sort": "RELEVANCE", "is_new_property": "false"}
     if lokasjon: params["location"] = lokasjon
     try:
         r = requests.get("https://www.finn.no/realestate/homes/search.html",
-                        headers=HEADERS, params=params, timeout=15)
+                         headers=HEADERS, params=params, timeout=15)
         soup = BeautifulSoup(r.text, "html.parser")
         arts = soup.find_all("article", class_=lambda x: x and "sf-search-ad" in x)
         prices = []
@@ -215,19 +271,9 @@ def search(
     min_score: int = 10,
 ):
     area_avg = get_area_avg(lokasjon)
-
-    base = {"sort": "PRICE_SQM_ASC", "is_new_property": "false"}
-    if lokasjon: base["location"] = lokasjon
-    if maks_pris: base["price_to"] = str(maks_pris)
-    if min_storrelse: base["area_from"] = str(min_storrelse)
-    if boligtype: base["property_type"] = boligtype
-
     all_listings = []
     for page in range(1, sider + 1):
-        listings = fetch_page(
-            "https://www.finn.no/realestate/homes/search.html",
-            {**base, "page": str(page)}
-        )
+        listings = fetch_listings(lokasjon, maks_pris, min_storrelse, boligtype, page)
         if not listings: break
         all_listings.extend(listings)
         time.sleep(0.4)
@@ -237,7 +283,6 @@ def search(
         [l for l in scored if l.get("score", 0) >= min_score],
         key=lambda x: x.get("score", 0), reverse=True
     )
-
     return {
         "count": len(filtered),
         "total_scraped": len(all_listings),
@@ -245,9 +290,18 @@ def search(
         "listings": filtered[:60],
     }
 
+@app.get("/sold")
+def sold(lokasjon: Optional[str] = None, limit: int = 20):
+    results = fetch_sold(lokasjon, limit)
+    avg = None
+    prices = [r["pris_per_kvm"] for r in results if r.get("pris_per_kvm")]
+    if prices:
+        avg = round(sum(prices) / len(prices))
+    return {"count": len(results), "avg_sqm": avg, "sales": results}
+
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "app": "Oppside"}
 
 
 if __name__ == "__main__":
