@@ -174,7 +174,7 @@ def fetch_page(url, params):
     try:
         r = requests.get(url, headers=HEADERS, params=params, timeout=15)
         r.raise_for_status()
-        soup = BeautifulSoup(r.text, "lxml")
+        soup = BeautifulSoup(r.text, "html.parser")
         arts = soup.find_all("article", class_=lambda x: x and "sf-search-ad" in x)
         return [parse_article(a) for a in arts if parse_article(a).get("title")]
     except Exception as e:
@@ -187,7 +187,7 @@ def get_area_avg(lokasjon=None):
     try:
         r = requests.get("https://www.finn.no/realestate/homes/search.html",
                         headers=HEADERS, params=params, timeout=15)
-        soup = BeautifulSoup(r.text, "lxml")
+        soup = BeautifulSoup(r.text, "html.parser")
         arts = soup.find_all("article", class_=lambda x: x and "sf-search-ad" in x)
         prices = []
         for art in arts[:30]:
