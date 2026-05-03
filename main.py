@@ -421,7 +421,7 @@ def analyze_car(car: dict) -> dict:
             signals.append(f"📅 Relativt ny ({year})")
 
     # Price suspiciously low vs min
-    if market and car.get("market_min") and price < market["market_min"] * 0.7:
+    if market and car.get("market_min") and price < market["min"] * 0.7:
         red_flags.append("🚨 Pris langt under billigste sammenlignbar — undersøk nøye")
 
     # Combine
@@ -567,7 +567,7 @@ def send_alert(cars: list):
           <p style="color:#8A8A8E;font-size:11px;margin:0 0 10px">{c.get('location','')} • {c.get('year','')} • {c.get('km_str','')}</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
             <span style="background:#EEF3E8;color:#2D5016;padding:4px 10px;border-radius:16px;font-size:12px;font-weight:700">{pct:.0f}% under snitt</span>
-            <span style="background:#EEF3E8;color:#2D5016;padding:4px 10px;border-radius:16px;font-size:12px;font-weight:700">{int(kr):,} kr billigere".replace(',', ' ')</span>
+            <span style="background:#EEF3E8;color:#2D5016;padding:4px 10px;border-radius:16px;font-size:12px;font-weight:700">{int(kr):,} kr billigere</span>
             <span style="background:#F7F4EF;color:#3A3A3C;padding:4px 10px;border-radius:16px;font-size:12px">Pris: {c.get('price','?')}</span>
           </div>
           <a href="{c.get('url','#')}" style="display:inline-block;background:#2D5016;color:#fff;padding:9px 18px;border-radius:7px;text-decoration:none;font-size:13px;font-weight:600">Se på Finn.no →</a>
@@ -629,13 +629,16 @@ def search_cars(
 
     all_cars = []
     for loc in locs:
-        cars = fetch_cars_from_finn(
-            lokasjon=loc, merke=merke or "",
-            fuel=fuel or "ELECTRIC",
-            maks_pris=maks_pris or 0, min_pris=min_pris or 0,
-            year_from=year_from or 0, max_km=max_km or 0,
-        )
-        all_cars.extend(cars)
+        try:
+            cars = fetch_cars_from_finn(
+                lokasjon=loc, merke=merke or "",
+                fuel=fuel or "ELECTRIC",
+                maks_pris=maks_pris or 0, min_pris=min_pris or 0,
+                year_from=year_from or 0, max_km=max_km or 0,
+            )
+            all_cars.extend(cars)
+        except Exception as e:
+            log.error(f"fetch_cars error for loc={loc}: {e}")
         time.sleep(0.4)
 
     # Deduplicate by finnkode
@@ -647,7 +650,13 @@ def search_cars(
 
     analyzed = []
     for car in unique[:45]:
-        analyzed.append(analyze_car(car))
+        try:
+            analyzed.append(analyze_car(car))
+        except Exception as e:
+            log.error(f"analyze_car error: {e}")
+            car["signals"] = [f"❌ Analysefeil: {str(e)[:60]}"]
+            car["alert_worthy"] = False
+            analyzed.append(car)
         time.sleep(0.3)
 
     alert_cars = [c for c in analyzed if c.get("alert_worthy") and c.get("url","") not in _alerted]
