@@ -3,235 +3,764 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oppside — Finn potensialet</title>
+<title>Oppside — Eiendom & Bil</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#F7F4EF;--warm-white:#FDFCFA;--charcoal:#1C1C1E;--slate:#3A3A3C;--muted:#8A8A8E;--border:#E5E0D8;--border-dark:#C8C0B4;--forest:#2D5016;--forest-light:#3D6B20;--forest-pale:#EEF3E8;--gold:#B8860B;--gold-light:#F5E6A3;--red:#C0392B;--red-pale:#FDECEA;--card-shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.06);--card-hover:0 4px 12px rgba(0,0,0,0.08),0 16px 40px rgba(0,0,0,0.10)}
+:root{
+  --cream:#F7F4EF;--warm:#FDFCFA;--charcoal:#1C1C1E;--slate:#3A3A3C;
+  --muted:#8A8A8E;--border:#E5E0D8;--bd2:#C8C0B4;
+  --forest:#2D5016;--forest2:#3D6B20;--fpale:#EEF3E8;
+  --gold:#B8860B;--gpale:#F5E6A3;
+  --blue:#1A4A8A;--bpale:#E8EFF8;
+  --red:#C0392B;--rpale:#FDECEA;
+  --cs:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --ch:0 4px 12px rgba(0,0,0,.08),0 16px 40px rgba(0,0,0,.10);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
-.topbar{background:var(--charcoal);padding:0 40px;display:flex;align-items:center;height:64px;position:sticky;top:0;z-index:200;gap:32px}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
-.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,#5B9B27 0%,#2D5016 100%);border-radius:8px;display:flex;align-items:center;justify-content:center}
+
+/* TOPBAR */
+.topbar{background:var(--charcoal);padding:0 40px;display:flex;align-items:center;height:64px;position:sticky;top:0;z-index:200;gap:24px}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,#5B9B27,#2D5016);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .logo-mark svg{width:20px;height:20px}
-.logo-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:-0.3px}
-.logo-tagline{font-size:11px;color:rgba(255,255,255,0.4);font-weight:300;letter-spacing:0.06em;margin-top:1px}
-.topbar-nav{display:flex;gap:0;margin-left:auto}
-.nav-btn{padding:8px 18px;background:transparent;border:none;color:rgba(255,255,255,0.5);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:6px;transition:color 0.15s,background 0.15s;white-space:nowrap}
-.nav-btn:hover,.nav-btn.active{color:#fff;background:rgba(255,255,255,0.08)}
-.status-pill{display:flex;align-items:center;gap:7px;padding:6px 14px;background:rgba(255,255,255,0.07);border-radius:20px;border:1px solid rgba(255,255,255,0.10);margin-left:12px}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
-.status-dot.live{background:#4CAF50;box-shadow:0 0 0 2px rgba(76,175,80,0.3);animation:pulse 2s infinite}
-.status-dot.searching{background:#F5C542;animation:pulse 0.6s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-.status-txt{font-size:12px;color:rgba(255,255,255,0.5);font-family:'DM Mono',monospace}
-.hero-strip{background:var(--charcoal);padding:0 40px 44px}
-.hero-heading{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:10px;letter-spacing:-0.5px}
+.logo-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.logo-tag{font-size:10px;color:rgba(255,255,255,.38);letter-spacing:.07em;margin-top:1px}
+.mode-tabs{display:flex;gap:2px;margin-left:auto;background:rgba(255,255,255,.07);border-radius:10px;padding:4px}
+.mode-tab{padding:7px 18px;border:none;background:transparent;color:rgba(255,255,255,.55);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border-radius:7px;transition:all .15s;display:flex;align-items:center;gap:6px}
+.mode-tab:hover{color:#fff}
+.mode-tab.active{background:rgba(255,255,255,.14);color:#fff}
+.status-pill{display:flex;align-items:center;gap:7px;padding:6px 13px;background:rgba(255,255,255,.07);border-radius:20px;border:1px solid rgba(255,255,255,.10);margin-left:8px;flex-shrink:0}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0}
+.sdot.live{background:#4CAF50;box-shadow:0 0 0 2px rgba(76,175,80,.3);animation:pulse 2s infinite}
+.sdot.busy{background:#F5C542;animation:pulse .6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.stxt{font-size:11px;color:rgba(255,255,255,.48);font-family:'DM Mono',monospace}
+
+/* HERO */
+.hero{background:var(--charcoal);padding:0 40px 44px}
+.hero-heading{font-family:'Playfair Display',serif;font-size:clamp(30px,4.5vw,50px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:10px;letter-spacing:-.5px}
 .hero-heading em{font-style:italic;color:#8BC34A}
-.hero-sub{color:rgba(255,255,255,0.42);font-size:15px;font-weight:300;max-width:480px}
-.search-panel{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:28px 32px;margin:-28px 40px 0;box-shadow:0 8px 32px rgba(0,0,0,0.10);position:relative;z-index:10}
-.search-grid{display:grid;grid-template-columns:1fr 1fr 160px 160px 160px auto;gap:12px;align-items:end}
-.field-group{display:flex;flex-direction:column;gap:5px}
-.field-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
-.field-select{height:44px;padding:0 14px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;color:var(--charcoal);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;outline:none;transition:border-color 0.15s,box-shadow 0.15s;width:100%;appearance:none;-webkit-appearance:none;cursor:pointer}
-.select-wrap{position:relative}
-.select-wrap::after{content:'';position:absolute;right:14px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--muted);pointer-events:none}
-.field-select:focus{border-color:var(--forest);box-shadow:0 0 0 3px rgba(45,80,22,0.08)}
-.btn-search{height:44px;padding:0 28px;background:var(--forest);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.15s,transform 0.1s;box-shadow:0 2px 8px rgba(45,80,22,0.25);display:flex;align-items:center;gap:8px}
-.btn-search:hover{background:var(--forest-light)}
-.btn-search:active{transform:scale(0.98)}
-.btn-search:disabled{background:var(--muted);box-shadow:none;cursor:not-allowed}
-.advanced-row{display:flex;gap:12px;margin-top:12px;align-items:center;flex-wrap:wrap}
-.chip-group{display:flex;gap:6px;flex-wrap:wrap}
-.chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--slate);font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all 0.12s}
+.hero-sub{color:rgba(255,255,255,.4);font-size:14px;font-weight:300;max-width:500px}
+
+/* SEARCH PANEL */
+.search-panel{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:26px 30px;margin:-28px 40px 0;box-shadow:0 8px 32px rgba(0,0,0,.10);position:relative;z-index:10}
+.sg{display:grid;gap:12px;align-items:end}
+.sg-property{grid-template-columns:1fr 1fr 150px 150px 140px auto}
+.sg-car{grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr auto}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}
+.fs,.fi{height:44px;padding:0 14px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;color:var(--charcoal);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;outline:none;transition:border-color .15s,box-shadow .15s;width:100%;appearance:none;-webkit-appearance:none;cursor:pointer}
+.sw{position:relative}
+.sw::after{content:'';position:absolute;right:13px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--muted);pointer-events:none}
+.fs:focus,.fi:focus{border-color:var(--forest);box-shadow:0 0 0 3px rgba(45,80,22,.08)}
+.btn-go{height:44px;padding:0 24px;background:var(--forest);color:#fff;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s,transform .1s;box-shadow:0 2px 8px rgba(45,80,22,.25);display:flex;align-items:center;gap:7px}
+.btn-go:hover{background:var(--forest2)}
+.btn-go:active{transform:scale(.98)}
+.btn-go:disabled{background:var(--muted);box-shadow:none;cursor:not-allowed}
+
+/* CHIPS */
+.adv-row{display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:wrap}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--slate);font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .12s}
 .chip:hover{border-color:var(--forest);color:var(--forest)}
-.chip.active{border-color:var(--forest);background:var(--forest-pale);color:var(--forest)}
-.adv-divider{width:1px;height:20px;background:var(--border);margin:0 4px}
-.adv-label{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
-.view-tabs{display:flex;gap:0;margin:40px 40px 0;border-bottom:2px solid var(--border)}
-.tab-btn{padding:12px 24px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:color 0.15s,border-color 0.15s;display:flex;align-items:center;gap:8px}
-.tab-btn:hover{color:var(--charcoal)}
-.tab-btn.active{color:var(--forest);border-bottom-color:var(--forest)}
-.tab-badge{background:var(--forest-pale);color:var(--forest);font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px}
-.tab-badge.gold{background:var(--gold-light);color:var(--gold)}
-.stats-bar{display:flex;gap:0;margin:24px 40px 0;background:var(--warm-white);border:1px solid var(--border);border-radius:12px;padding:20px 0}
-.stat-item{flex:1;text-align:center;padding:0 24px;border-right:1px solid var(--border)}
-.stat-item:last-child{border-right:none}
-.stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--charcoal);line-height:1;margin-bottom:4px}
-.stat-num.green{color:var(--forest)}
-.stat-num.gold{color:var(--gold)}
-.stat-label{font-size:11px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.07em}
-.main-content{padding:24px 40px 60px}
-.state-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px;text-align:center;gap:14px}
-.state-icon{font-size:56px;margin-bottom:4px}
-.state-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--charcoal)}
-.state-sub{font-size:15px;color:var(--muted);max-width:380px;font-weight:300;line-height:1.7}
-.spinner{width:40px;height:40px;border:2.5px solid var(--border);border-top-color:var(--forest);border-radius:50%;animation:spin 0.75s linear infinite}
+.chip.active{border-color:var(--forest);background:var(--fpale);color:var(--forest)}
+.adv-sep{width:1px;height:18px;background:var(--border);margin:0 3px}
+.adv-lbl{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
+
+/* ALERT BANNER */
+.alert-banner{background:linear-gradient(135deg,var(--blue),#2A6AC0);border-radius:10px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.alert-banner-txt{font-size:13px;color:rgba(255,255,255,.85)}
+.alert-banner-txt b{color:#fff}
+.alert-status{font-size:11px;font-family:'DM Mono',monospace;color:rgba(255,255,255,.55);white-space:nowrap}
+.btn-alert{padding:7px 14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:6px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .12s;white-space:nowrap}
+.btn-alert:hover{background:rgba(255,255,255,.25)}
+
+/* VIEW TABS */
+.view-tabs{display:flex;margin:38px 40px 0;border-bottom:2px solid var(--border)}
+.vtab{padding:11px 22px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s;display:flex;align-items:center;gap:8px}
+.vtab:hover{color:var(--charcoal)}
+.vtab.active{color:var(--forest);border-bottom-color:var(--forest)}
+.tbadge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:10px;background:var(--fpale);color:var(--forest)}
+.tbadge.gold{background:var(--gpale);color:var(--gold)}
+.tbadge.blue{background:var(--bpale);color:var(--blue)}
+
+/* STATS */
+.stats-bar{display:flex;margin:22px 40px 0;background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:18px 0}
+.si{flex:1;text-align:center;padding:0 20px;border-right:1px solid var(--border)}
+.si:last-child{border-right:none}
+.sn{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--charcoal);line-height:1;margin-bottom:3px}
+.sn.g{color:var(--forest)}.sn.au{color:var(--gold)}.sn.b{color:var(--blue)}
+.sl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+
+/* MAIN */
+.main{padding:22px 40px 60px}
+
+/* STATE */
+.state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 40px;text-align:center;gap:12px}
+.state-ico{font-size:52px;margin-bottom:4px}
+.state-h{font-family:'Playfair Display',serif;font-size:24px;font-weight:600}
+.state-p{font-size:14px;color:var(--muted);max-width:360px;font-weight:300;line-height:1.7}
+.spinner{width:38px;height:38px;border:2.5px solid var(--border);border-top-color:var(--forest);border-radius:50%;animation:spin .75s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
-.prop-card{background:var(--warm-white);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--card-shadow);transition:box-shadow 0.2s,transform 0.2s}
-.prop-card:hover{box-shadow:var(--card-hover);transform:translateY(-2px)}
-.card-image{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--cream)}
-.card-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease}
-.prop-card:hover .card-image img{transform:scale(1.04)}
-.card-image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;color:var(--border-dark);background:linear-gradient(135deg,var(--cream) 0%,var(--border) 100%)}
-.score-badge{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-radius:20px;padding:5px 12px;display:flex;align-items:center;gap:5px;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
-.score-num{font-family:'DM Mono',monospace;font-size:13px;font-weight:500}
-.score-fire .score-num{color:var(--forest)}
-.score-hot .score-num{color:var(--gold)}
-.score-ok .score-num{color:var(--muted)}
-.eierform-badge{position:absolute;bottom:12px;left:12px;background:rgba(28,28,30,0.75);backdrop-filter:blur(6px);color:rgba(255,255,255,0.9);font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:4px 10px;border-radius:5px}
-.card-body{padding:18px 20px;flex:1;display:flex;flex-direction:column}
-.card-location{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:7px}
-.card-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;line-height:1.4;color:var(--charcoal);margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
-.metric-box{background:var(--cream);border-radius:8px;padding:9px 10px}
-.metric-val{font-size:13px;font-weight:700;color:var(--charcoal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.metric-val.green{color:var(--forest)}
-.metric-lbl{font-size:10px;color:var(--muted);margin-top:1px;text-transform:uppercase;letter-spacing:0.05em}
-.card-signals{display:flex;flex-direction:column;gap:3px;margin-bottom:14px;flex:1}
-.signal-tag{font-size:12px;color:var(--slate);font-weight:400;line-height:1.5}
-.card-actions{display:flex;gap:8px}
-.btn-finn-link{flex:1;padding:10px;background:var(--forest);color:#fff;text-decoration:none;border-radius:8px;font-size:13px;font-weight:600;text-align:center;transition:background 0.12s;font-family:'DM Sans',sans-serif}
-.btn-finn-link:hover{background:var(--forest-light)}
-.btn-ai-analyze{flex:1;padding:10px;background:var(--cream);border:1.5px solid var(--border);color:var(--slate);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:border-color 0.12s,color 0.12s,background 0.12s;font-family:'DM Sans',sans-serif}
-.btn-ai-analyze:hover{border-color:#7c3aed;color:#7c3aed;background:#f5f0ff}
-.sold-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.sold-card{background:var(--warm-white);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--card-shadow)}
-.sold-card-image{aspect-ratio:16/9;overflow:hidden;background:var(--cream)}
-.sold-card-image img{width:100%;height:100%;object-fit:cover;display:block}
-.sold-card-body{padding:14px 16px}
-.sold-label{display:inline-block;background:var(--red-pale);color:var(--red);font-size:10px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:8px}
-.sold-title{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.sold-loc{font-size:11px;color:var(--muted);margin-bottom:10px}
-.sold-price-row{display:flex;justify-content:space-between;align-items:flex-end}
-.sold-price{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--charcoal)}
-.sold-sqm{font-size:12px;color:var(--forest);font-weight:600;font-family:'DM Mono',monospace}
-.sold-size{font-size:11px;color:var(--muted);margin-top:2px}
-.comparison-banner{background:linear-gradient(135deg,var(--forest) 0%,#3D6B20 100%);border-radius:12px;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:16px}
-.comparison-txt h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#fff;margin-bottom:3px}
-.comparison-txt p{font-size:13px;color:rgba(255,255,255,0.6)}
-.comparison-stat{text-align:right;flex-shrink:0}
-.comparison-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#fff;line-height:1}
-.comparison-lbl{font-size:11px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;margin-top:3px}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,15,18,0.7);backdrop-filter:blur(4px);z-index:500;place-items:center;padding:20px}
+
+/* PROPERTY CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+.pcard{background:var(--warm);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--cs);transition:box-shadow .2s,transform .2s}
+.pcard:hover{box-shadow:var(--ch);transform:translateY(-2px)}
+.cimg{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--cream)}
+.cimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.pcard:hover .cimg img{transform:scale(1.04)}
+.cimg-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--bd2);background:linear-gradient(135deg,var(--cream),var(--border))}
+.sbadge{position:absolute;top:11px;right:11px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-radius:20px;padding:4px 11px;display:flex;align-items:center;gap:5px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.sbadge .snum{font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
+.sf .snum{color:var(--forest)}.sh .snum{color:var(--gold)}.so .snum{color:var(--muted)}
+.efbadge{position:absolute;bottom:11px;left:11px;background:rgba(28,28,30,.75);backdrop-filter:blur(6px);color:rgba(255,255,255,.9);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:5px}
+.cbody{padding:16px 18px;flex:1;display:flex;flex-direction:column}
+.cloc{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+.ctitle{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;line-height:1.4;color:var(--charcoal);margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cmetrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:12px}
+.mbox{background:var(--cream);border-radius:7px;padding:8px 9px}
+.mv{font-size:12px;font-weight:700;color:var(--charcoal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mv.g{color:var(--forest)}.mv.b{color:var(--blue)}
+.mlb{font-size:9px;color:var(--muted);margin-top:1px;text-transform:uppercase;letter-spacing:.05em}
+.csigs{display:flex;flex-direction:column;gap:3px;margin-bottom:12px;flex:1}
+.sig{font-size:11px;color:var(--slate);line-height:1.5}
+.cacts{display:flex;gap:7px}
+.btn-finn{flex:1;padding:9px;background:var(--forest);color:#fff;text-decoration:none;border-radius:7px;font-size:12px;font-weight:700;text-align:center;font-family:'DM Sans',sans-serif;transition:background .12s}
+.btn-finn:hover{background:var(--forest2)}
+.btn-ai{flex:1;padding:9px;background:var(--cream);border:1.5px solid var(--border);color:var(--slate);border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .12s,color .12s,background .12s}
+.btn-ai:hover{border-color:#7c3aed;color:#7c3aed;background:#f5f0ff}
+
+/* CAR CARDS */
+.car-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+.ccar{background:var(--warm);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--cs);transition:box-shadow .2s,transform .2s}
+.ccar:hover{box-shadow:var(--ch);transform:translateY(-2px)}
+.ccar.alert-card{border-color:#2D5016;box-shadow:0 0 0 2px rgba(45,80,22,.2),var(--cs)}
+.car-img{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--cream)}
+.car-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.ccar:hover .car-img img{transform:scale(1.04)}
+.car-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--bd2);background:linear-gradient(135deg,var(--cream),var(--border))}
+.price-badge{position:absolute;bottom:11px;left:11px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-radius:8px;padding:6px 12px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.pb-price{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--charcoal);line-height:1}
+.pb-sub{font-size:10px;color:var(--muted);margin-top:1px}
+.deal-badge{position:absolute;top:11px;right:11px;border-radius:8px;padding:5px 11px;font-size:12px;font-weight:700;font-family:'DM Mono',monospace}
+.deal-fire{background:#2D5016;color:#fff}
+.deal-good{background:#F5E6A3;color:#7A5900}
+.deal-ok{background:rgba(255,255,255,.9);color:var(--muted)}
+.deal-over{background:var(--rpale);color:var(--red)}
+.carbody{padding:16px 18px;flex:1;display:flex;flex-direction:column}
+.car-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.car-title-wrap{flex:1}
+.car-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--charcoal);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.car-loc{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+.underpris-box{text-align:right;flex-shrink:0}
+.up-pct{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--forest);line-height:1}
+.up-kr{font-size:10px;color:var(--forest);font-weight:600;margin-top:1px}
+.up-over{color:var(--red)!important}
+.car-specs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:10px 0}
+.car-sigs{display:flex;flex-direction:column;gap:3px;margin-bottom:12px;flex:1}
+.car-sig{font-size:11px;color:var(--slate);line-height:1.5}
+.market-note{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:10px;padding:6px 9px;background:var(--cream);border-radius:6px}
+
+/* SOLD */
+.sold-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.sold-card{background:var(--warm);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--cs)}
+.sold-img{aspect-ratio:16/9;overflow:hidden;background:var(--cream)}
+.sold-img img{width:100%;height:100%;object-fit:cover;display:block}
+.sold-body{padding:13px 15px}
+.sold-lbl{display:inline-block;background:var(--rpale);color:var(--red);font-size:9px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-bottom:7px}
+.sold-title{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:4px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sold-loc{font-size:10px;color:var(--muted);margin-bottom:9px}
+.sold-row{display:flex;justify-content:space-between;align-items:flex-end}
+.sold-price{font-family:'Playfair Display',serif;font-size:17px;font-weight:700}
+.sold-sqm{font-size:11px;color:var(--forest);font-weight:600;font-family:'DM Mono',monospace}
+.comp-banner{background:linear-gradient(135deg,var(--forest),#3D6B20);border-radius:12px;padding:18px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:14px}
+.comp-txt h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#fff;margin-bottom:2px}
+.comp-txt p{font-size:12px;color:rgba(255,255,255,.58)}
+.comp-num{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:#fff;line-height:1}
+.comp-lbl{font-size:10px;color:rgba(255,255,255,.52);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(15,15,18,.72);backdrop-filter:blur(4px);z-index:500;place-items:center;padding:20px}
 .modal-bg.open{display:grid}
-.modal{background:var(--warm-white);border-radius:20px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.25)}
-.modal-head{padding:28px 32px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
-.modal-head-text{flex:1}
-.modal-label{font-size:11px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:6px}
-.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;line-height:1.3;color:var(--charcoal)}
-.modal-close{width:36px;height:36px;background:var(--cream);border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:18px;color:var(--muted);display:grid;place-items:center;flex-shrink:0;transition:color 0.12s}
-.modal-close:hover{color:var(--charcoal)}
-.modal-body{padding:24px 32px 32px}
-.ai-thinking{display:flex;align-items:center;gap:12px;padding:20px 0}
-.ai-dots{display:flex;gap:5px}
-.ai-dot{width:8px;height:8px;background:#7c3aed;border-radius:50%;animation:bounce 1.2s ease-in-out infinite;opacity:0.6}
-.ai-dot:nth-child(2){animation-delay:0.15s}
-.ai-dot:nth-child(3){animation-delay:0.3s}
+.modal{background:var(--warm);border-radius:18px;max-width:620px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.modal-head{padding:26px 30px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.mlbl{font-size:10px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.10em;margin-bottom:5px}
+.mtitle{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;line-height:1.3}
+.mclose{width:34px;height:34px;background:var(--cream);border:1.5px solid var(--border);border-radius:7px;cursor:pointer;font-size:17px;color:var(--muted);display:grid;place-items:center;flex-shrink:0;transition:color .12s}
+.mclose:hover{color:var(--charcoal)}
+.mbody{padding:22px 30px 30px}
+.ai-think{display:flex;align-items:center;gap:11px;padding:16px 0}
+.aidots{display:flex;gap:5px}
+.aid{width:7px;height:7px;background:#7c3aed;border-radius:50%;animation:bounce 1.2s ease-in-out infinite;opacity:.6}
+.aid:nth-child(2){animation-delay:.15s}.aid:nth-child(3){animation-delay:.3s}
 @keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px);opacity:1}}
-.ai-thinking-txt{font-size:13px;color:var(--muted);font-family:'DM Mono',monospace}
-.ai-content{font-size:14px;line-height:1.85;color:var(--slate)}
+.aitxt{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.ai-content{font-size:13px;line-height:1.85;color:var(--slate)}
 .ai-content b{color:var(--charcoal);font-weight:700}
-@media(max-width:900px){.topbar,.hero-strip{padding-left:20px;padding-right:20px}.search-panel{margin:-20px 20px 0;padding:20px}.search-grid{grid-template-columns:1fr 1fr}.view-tabs,.stats-bar,.main-content{margin-left:20px;margin-right:20px}.cards-grid{grid-template-columns:1fr}.sold-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.search-grid{grid-template-columns:1fr}.sold-grid{grid-template-columns:1fr}.hero-heading{font-size:28px}.topbar-nav,.logo-tagline{display:none}.stats-bar{flex-direction:column}.stat-item{border-right:none;border-bottom:1px solid var(--border);padding:12px 24px}}
+
+/* RESPONSIVE */
+@media(max-width:1000px){.sg-property,.sg-car{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){
+  .topbar,.hero,.search-panel{padding-left:20px;padding-right:20px}
+  .search-panel{margin:-20px 20px 0}
+  .view-tabs,.stats-bar,.main{margin-left:20px;margin-right:20px}
+  .cards-grid,.car-grid{grid-template-columns:1fr}
+  .sold-grid{grid-template-columns:1fr 1fr}
+  .mode-tabs{display:none}
+}
+@media(max-width:500px){
+  .sold-grid{grid-template-columns:1fr}
+  .stats-bar{flex-direction:column}
+  .si{border-right:none;border-bottom:1px solid var(--border);padding:10px 20px}
+  .hero-heading{font-size:26px}
+  .logo-tag{display:none}
+}
 </style>
 </head>
 <body>
+
+<!-- TOPBAR -->
 <header class="topbar">
   <a class="logo" href="#">
     <div class="logo-mark">
       <svg viewBox="0 0 20 20" fill="none"><path d="M10 2L4 8l6 6 6-6-6-6z" fill="rgba(255,255,255,0.3)"/><path d="M10 6L6 10l4 4 4-4-4-4z" fill="white"/></svg>
     </div>
-    <div><div class="logo-name">Oppside</div><div class="logo-tagline">EIENDOMSANALYSE</div></div>
+    <div><div class="logo-name">Oppside</div><div class="logo-tag">INVESTERINGSANALYSE</div></div>
   </a>
-  <nav class="topbar-nav">
-    <button class="nav-btn active" onclick="showTab('listings')">Oppussingsobjekter</button>
-    <button class="nav-btn" onclick="showTab('sold')">Solgte boliger</button>
-  </nav>
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="setMode('property')">🏠 Eiendom</button>
+    <button class="mode-tab" onclick="setMode('car')">🚗 Bil</button>
+  </div>
   <div class="status-pill">
-    <div class="status-dot live" id="statusDot"></div>
-    <span class="status-txt" id="statusTxt">Klar</span>
+    <div class="sdot live" id="sdot"></div>
+    <span class="stxt" id="stxt">Klar</span>
   </div>
 </header>
 
-<div class="hero-strip">
-  <h1 class="hero-heading">Finn <em>potensialet</em><br>andre overser</h1>
-  <p class="hero-sub">Automatisk skanning av finn.no for oppussingsobjekter med skjult markedsverdi</p>
+<!-- HERO -->
+<div class="hero" id="heroBlock">
+  <h1 class="hero-heading" id="heroHeading">Finn <em>potensialet</em><br>andre overser</h1>
+  <p class="hero-sub" id="heroSub">Skanner finn.no automatisk for eiendommer og biler med skjult markedsverdi</p>
 </div>
 
+<!-- SEARCH PANEL -->
 <div class="search-panel">
-  <div class="search-grid">
-    <div class="field-group"><label class="field-label">Fylke</label><div class="select-wrap"><select class="field-select" id="fylkeSelect" onchange="onFylkeChange(this.value)"><option value="">Velg fylke</option><option value="oslo">Oslo</option><option value="viken">Viken (Akershus, Østfold, Buskerud)</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland</option><option value="troms">Troms og Finnmark</option></select></div></div>
-    <div class="field-group"><label class="field-label">By / Kommune</label><div class="select-wrap"><select class="field-select" id="bySelect" onchange="onByChange(this.value)"><option value="">Velg fylke først</option></select></div></div>
-    <div class="field-group"><label class="field-label">Maks pris</label><div class="select-wrap"><select class="field-select" id="maksPris"><option value="4000000">4 mill</option><option value="5000000">5 mill</option><option value="6000000">6 mill</option><option value="7000000" selected>7 mill</option><option value="8000000">8 mill</option><option value="10000000">10 mill</option><option value="15000000">15 mill</option><option value="">Ingen grense</option></select></div></div>
-    <div class="field-group"><label class="field-label">Boligtype</label><div class="select-wrap"><select class="field-select" id="boligtype"><option value="">Alle typer</option><option value="3">Leilighet</option><option value="1">Enebolig</option><option value="2">Tomannsbolig</option><option value="4">Rekkehus</option></select></div></div>
-    <div class="field-group"><label class="field-label">Omfang</label><div class="select-wrap"><select class="field-select" id="sider"><option value="2">Raskt ~100</option><option value="3" selected>Standard ~150</option><option value="5">Grundig ~250</option><option value="8">Fullstendig ~400</option></select></div></div>
-    <div class="field-group"><label class="field-label">&nbsp;</label><button class="btn-search" id="searchBtn" onclick="runSearch()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk</button></div>
+
+  <!-- PROPERTY SEARCH -->
+  <div id="propSearch">
+    <div class="sg sg-property">
+      <div class="fg"><label class="fl">Fylke</label><div class="sw"><select class="fs" id="fylke" onchange="onFylke(this.value)"><option value="">Velg fylke</option><option value="oslo">Oslo</option><option value="viken">Viken</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland</option><option value="troms">Troms og Finnmark</option></select></div></div>
+      <div class="fg"><label class="fl">By / Kommune</label><div class="sw"><select class="fs" id="by" onchange="onBy(this.value)"><option value="">Velg fylke først</option></select></div></div>
+      <div class="fg"><label class="fl">Maks pris</label><div class="sw"><select class="fs" id="maksPris"><option value="4000000">4 mill</option><option value="5000000">5 mill</option><option value="6000000">6 mill</option><option value="7000000" selected>7 mill</option><option value="8000000">8 mill</option><option value="10000000">10 mill</option><option value="15000000">15 mill</option><option value="">Ingen grense</option></select></div></div>
+      <div class="fg"><label class="fl">Boligtype</label><div class="sw"><select class="fs" id="boligtype"><option value="">Alle</option><option value="3">Leilighet</option><option value="1">Enebolig</option><option value="2">Tomannsbolig</option><option value="4">Rekkehus</option></select></div></div>
+      <div class="fg"><label class="fl">Omfang</label><div class="sw"><select class="fs" id="sider"><option value="2">Raskt ~100</option><option value="3" selected>Standard ~150</option><option value="5">Grundig ~250</option><option value="8">Fullt ~400</option></select></div></div>
+      <div class="fg"><label class="fl">&nbsp;</label><button class="btn-go" id="propBtn" onclick="runPropertySearch()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk</button></div>
+    </div>
+    <div class="adv-row">
+      <span class="adv-lbl">Score ≥</span>
+      <div class="chips" id="scoreChips">
+        <button class="chip" onclick="setScore(5,this)">5+</button>
+        <button class="chip active" onclick="setScore(10,this)">10+</button>
+        <button class="chip" onclick="setScore(25,this)">25+</button>
+        <button class="chip" onclick="setScore(40,this)">40+</button>
+      </div>
+      <div class="adv-sep"></div>
+      <span class="adv-lbl">Min størrelse</span>
+      <div class="chips" id="sizeChips">
+        <button class="chip active" onclick="setSize(0,this)">Alle</button>
+        <button class="chip" onclick="setSize(30,this)">30m²+</button>
+        <button class="chip" onclick="setSize(50,this)">50m²+</button>
+        <button class="chip" onclick="setSize(70,this)">70m²+</button>
+      </div>
+    </div>
   </div>
-  <div class="advanced-row">
-    <span class="adv-label">Score ≥</span>
-    <div class="chip-group" id="scoreChips"><button class="chip" onclick="setScore(5,this)">5+</button><button class="chip active" onclick="setScore(10,this)">10+</button><button class="chip" onclick="setScore(25,this)">25+</button><button class="chip" onclick="setScore(40,this)">40+</button></div>
-    <div class="adv-divider"></div>
-    <span class="adv-label">Min størrelse</span>
-    <div class="chip-group" id="sizeChips"><button class="chip active" onclick="setSize(0,this)">Alle</button><button class="chip" onclick="setSize(30,this)">30 m²+</button><button class="chip" onclick="setSize(50,this)">50 m²+</button><button class="chip" onclick="setSize(70,this)">70 m²+</button></div>
+
+  <!-- CAR SEARCH -->
+  <div id="carSearch" style="display:none">
+    <div class="sg sg-car">
+      <div class="fg"><label class="fl">Fylke</label><div class="sw"><select class="fs" id="carFylke" onchange="onCarFylke(this.value)"><option value="">Hele Norge</option><option value="oslo">Oslo</option><option value="viken">Viken</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland</option><option value="troms">Troms og Finnmark</option></select></div></div>
+      <div class="fg"><label class="fl">By / Region</label><div class="sw"><select class="fs" id="carBy" onchange="onCarBy(this.value)"><option value="">Hele fylket</option></select></div></div>
+      <div class="fg"><label class="fl">Maks pris</label><div class="sw"><select class="fs" id="carMaksPris"><option value="100000">100k</option><option value="200000">200k</option><option value="300000">300k</option><option value="400000">400k</option><option value="500000" selected>500k</option><option value="700000">700k</option><option value="1000000">1 mill</option><option value="">Ingen grense</option></select></div></div>
+      <div class="fg"><label class="fl">Årsmodell fra</label><div class="sw"><select class="fs" id="yearFrom"><option value="">Alle år</option><option value="2018">2018+</option><option value="2019">2019+</option><option value="2020">2020+</option><option value="2021">2021+</option><option value="2022">2022+</option><option value="2023">2023+</option></select></div></div>
+      <div class="fg"><label class="fl">Maks km</label><div class="sw"><select class="fs" id="maxKm"><option value="">Alle</option><option value="30000">Under 30 000</option><option value="60000">Under 60 000</option><option value="100000">Under 100 000</option><option value="150000">Under 150 000</option></select></div></div>
+      <div class="fg"><label class="fl">Drivstoff</label><div class="sw"><select class="fs" id="fuelType"><option value="2">Elektrisk (elbil)</option><option value="1">Bensin</option><option value="3">Diesel</option><option value="7">Hybrid</option><option value="">Alle</option></select></div></div>
+      <div class="fg"><label class="fl">&nbsp;</label><button class="btn-go" id="carBtn" onclick="runCarSearch()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk</button></div>
+    </div>
+    <div class="adv-row">
+      <span class="adv-lbl">Merke</span>
+      <div class="chips" id="merkeChips">
+        <button class="chip active" onclick="setMerke('',this)">Alle</button>
+        <button class="chip" onclick="setMerke('tesla',this)">Tesla</button>
+        <button class="chip" onclick="setMerke('volkswagen',this)">VW</button>
+        <button class="chip" onclick="setMerke('hyundai',this)">Hyundai</button>
+        <button class="chip" onclick="setMerke('kia',this)">Kia</button>
+        <button class="chip" onclick="setMerke('bmw',this)">BMW</button>
+        <button class="chip" onclick="setMerke('audi',this)">Audi</button>
+        <button class="chip" onclick="setMerke('nissan',this)">Nissan</button>
+        <button class="chip" onclick="setMerke('polestar',this)">Polestar</button>
+        <button class="chip" onclick="setMerke('volvo',this)">Volvo</button>
+      </div>
+    </div>
+    <div class="alert-banner" id="alertBanner">
+      <div class="alert-banner-txt"><b>📧 E-postvarsel aktivt</b> — Du varsles automatisk når biler er ≥30% under markedssnitt og ≥50 000 kr billigere</div>
+      <span class="alert-status" id="alertStatus">Sjekker...</span>
+      <button class="btn-alert" onclick="triggerScan()">Skann nå</button>
+    </div>
   </div>
 </div>
 
-<div class="view-tabs">
-  <button class="tab-btn active" id="tab-listings" onclick="showTab('listings')">🏚️ Oppussingsfunn <span class="tab-badge" id="tabBadge" style="display:none">0</span></button>
-  <button class="tab-btn" id="tab-sold" onclick="showTab('sold')">📊 Solgte boliger <span class="tab-badge gold" id="soldBadge" style="display:none">0</span></button>
+<!-- VIEW TABS -->
+<div class="view-tabs" id="viewTabs">
+  <button class="vtab active" id="tab-main" onclick="showTab('main')">
+    <span id="tabMainIcon">🏚️</span> <span id="tabMainLbl">Oppussingsfunn</span>
+    <span class="tbadge" id="mainBadge" style="display:none">0</span>
+  </button>
+  <button class="vtab" id="tab-sold" onclick="showTab('sold')">
+    📊 Solgte boliger
+    <span class="tbadge gold" id="soldBadge" style="display:none">0</span>
+  </button>
 </div>
 
+<!-- STATS -->
 <div class="stats-bar" id="statsBar" style="display:none">
-  <div class="stat-item"><div class="stat-num green" id="sFound">0</div><div class="stat-label">Oppussingsfunn</div></div>
-  <div class="stat-item"><div class="stat-num" id="sTotal">0</div><div class="stat-label">Boliger skannet</div></div>
-  <div class="stat-item"><div class="stat-num" id="sAvg">—</div><div class="stat-label">Snitt kr/m² (marked)</div></div>
-  <div class="stat-item"><div class="stat-num gold" id="sSoldAvg">—</div><div class="stat-label">Snitt kr/m² (solgt)</div></div>
+  <div class="si"><div class="sn g" id="sFound">0</div><div class="sl" id="slFound">Oppussingsfunn</div></div>
+  <div class="si"><div class="sn" id="sTotal">0</div><div class="sl">Skannet totalt</div></div>
+  <div class="si"><div class="sn" id="sAvg">—</div><div class="sl" id="slAvg">Snitt kr/m² (marked)</div></div>
+  <div class="si"><div class="sn au" id="sExtra">—</div><div class="sl" id="slExtra">Snitt kr/m² (solgt)</div></div>
 </div>
 
-<div class="main-content">
-  <div id="view-listings">
-    <div class="state-box" id="emptyState"><div class="state-icon">🏡</div><div class="state-title">Klar til å skanne markedet</div><div class="state-sub">Velg fylke og by, juster filtre og trykk Søk for å finne boliger med skjult potensial.</div></div>
-    <div class="state-box" id="loadingState" style="display:none"><div class="spinner"></div><div class="state-title" style="margin-top:16px">Skanner markedet...</div><div class="state-sub" id="loadingMsg">Henter boliger fra finn.no</div></div>
+<!-- MAIN CONTENT -->
+<div class="main">
+  <!-- Property listings -->
+  <div id="view-main">
+    <div class="state" id="emptyState">
+      <div class="state-ico">🏡</div>
+      <div class="state-h" id="emptyH">Klar til å skanne markedet</div>
+      <div class="state-p" id="emptyP">Velg fylke og by, juster filtre og trykk Søk for å finne boliger med skjult potensial.</div>
+    </div>
+    <div class="state" id="loadingState" style="display:none">
+      <div class="spinner"></div>
+      <div class="state-h" style="margin-top:14px" id="loadH">Skanner markedet...</div>
+      <div class="state-p" id="loadMsg">Henter data fra finn.no</div>
+    </div>
     <div class="cards-grid" id="listingsGrid"></div>
+    <div class="car-grid" id="carGrid" style="display:none"></div>
   </div>
+
+  <!-- Sold -->
   <div id="view-sold" style="display:none">
-    <div class="state-box" id="soldEmpty"><div class="state-icon">📊</div><div class="state-title">Sammenlign med markedet</div><div class="state-sub">Kjør et søk først for å laste solgte boliger i valgt område.</div></div>
+    <div class="state" id="soldEmpty">
+      <div class="state-ico">📊</div>
+      <div class="state-h">Sammenlign med markedet</div>
+      <div class="state-p">Kjør et søk først for å laste solgte boliger i valgt område.</div>
+    </div>
     <div id="soldContent" style="display:none">
-      <div class="comparison-banner" id="compBanner"><div class="comparison-txt"><h3>Markedsdata — solgte boliger</h3><p id="compDesc">Siste omsatte eiendommer i valgt område</p></div><div class="comparison-stat"><div class="comparison-num" id="compNum">—</div><div class="comparison-lbl">Snitt kr/m² (solgt)</div></div></div>
+      <div class="comp-banner" id="compBanner">
+        <div class="comp-txt"><h3>Markedsdata — solgte boliger</h3><p id="compDesc">Siste omsatte eiendommer</p></div>
+        <div><div class="comp-num" id="compNum">—</div><div class="comp-lbl">Snitt kr/m² (solgt)</div></div>
+      </div>
       <div class="sold-grid" id="soldGrid"></div>
     </div>
   </div>
 </div>
 
+<!-- AI MODAL -->
 <div class="modal-bg" id="aiModal">
   <div class="modal">
-    <div class="modal-head"><div class="modal-head-text"><div class="modal-label">✦ AI-analyse — Investeringsvurdering</div><div class="modal-title" id="modalTitle">Analyserer...</div></div><button class="modal-close" onclick="closeModal()">✕</button></div>
-    <div class="modal-body" id="modalBody"><div class="ai-thinking"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span class="ai-thinking-txt">Analyserer investeringspotensial...</span></div></div>
+    <div class="modal-head">
+      <div><div class="mlbl">✦ AI-analyse — Investeringsvurdering</div><div class="mtitle" id="mtitle">Analyserer...</div></div>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mbody" id="mbody">
+      <div class="ai-think"><div class="aidots"><div class="aid"></div><div class="aid"></div><div class="aid"></div></div><span class="aitxt">Analyserer...</span></div>
+    </div>
   </div>
 </div>
 
 <script>
 const API='';
-const LOCATIONS={oslo:{label:'Oslo',byer:[{label:'Oslo (hele kommunen)',loc:'0.20061'},{label:'Oslo Vest (Røa, Ullern)',loc:'1.20061.20532'},{label:'Oslo Nord (Grefsen, Kjelsås)',loc:'1.20061.20529'},{label:'Oslo Øst (Bjerke, Grorud)',loc:'1.20061.20528'},{label:'Oslo Sentrum',loc:'1.20061.20513'},{label:'Oslo Syd (Nordstrand)',loc:'1.20061.20520'}]},viken:{label:'Viken',byer:[{label:'Bærum',loc:'1.20003.20045'},{label:'Asker',loc:'1.20003.20046'},{label:'Drammen',loc:'1.20007.20110'},{label:'Lier',loc:'1.20007.20125'},{label:'Kongsberg',loc:'1.20007.20107'},{label:'Fredrikstad',loc:'1.20002.20024'},{label:'Sarpsborg',loc:'1.20002.20023'},{label:'Moss',loc:'1.20002.20022'},{label:'Vest for Oslo (samlet)',loc:'0.20003'}]},innlandet:{label:'Innlandet',byer:[{label:'Hamar',loc:'1.22034.20063'},{label:'Lillehammer',loc:'1.22034.20074'},{label:'Gjøvik',loc:'1.22034.20058'},{label:'Elverum',loc:'1.22034.20054'}]},vestfold:{label:'Vestfold og Telemark',byer:[{label:'Tønsberg',loc:'1.20005.20038'},{label:'Sandefjord',loc:'1.20005.20036'},{label:'Larvik',loc:'1.20005.20039'},{label:'Skien',loc:'1.20008.20137'},{label:'Porsgrunn',loc:'1.20008.20135'}]},agder:{label:'Agder',byer:[{label:'Kristiansand',loc:'1.22042.20179'},{label:'Arendal',loc:'1.22042.20168'},{label:'Grimstad',loc:'1.22042.20172'}]},rogaland:{label:'Rogaland',byer:[{label:'Stavanger',loc:'1.20012.20196'},{label:'Sandnes',loc:'1.20012.20194'},{label:'Haugesund',loc:'1.20012.20187'},{label:'Sola',loc:'1.20012.20198'}]},vestland:{label:'Vestland',byer:[{label:'Bergen',loc:'1.22046.20220'},{label:'Bergen Vest (Laksevåg, Fyllingsdalen)',loc:'1.22046.20222'},{label:'Askøy',loc:'1.22046.20216'},{label:'Os (Bjørnafjorden)',loc:'1.22046.20232'},{label:'Sotra (Øygarden)',loc:'1.22046.20240'}]},more:{label:'Møre og Romsdal',byer:[{label:'Ålesund',loc:'1.20015.20282'},{label:'Molde',loc:'1.20015.20271'},{label:'Kristiansund',loc:'1.20015.20266'}]},trondelag:{label:'Trøndelag',byer:[{label:'Trondheim',loc:'1.20016.20318'},{label:'Stjørdal',loc:'1.20016.20311'},{label:'Steinkjer',loc:'1.20017.20337'},{label:'Levanger',loc:'1.20017.20326'}]},nordland:{label:'Nordland',byer:[{label:'Bodø',loc:'1.20018.20346'},{label:'Narvik',loc:'1.20018.20361'},{label:'Mo i Rana',loc:'1.20018.20357'}]},troms:{label:'Troms og Finnmark',byer:[{label:'Tromsø',loc:'1.20019.20413'},{label:'Alta',loc:'1.20019.20394'},{label:'Harstad',loc:'1.20019.20400'}]}};
-let currentLoc='',currentScore=10,currentSize=0;
-function onFylkeChange(v){const s=document.getElementById('bySelect');s.innerHTML='<option value="">Velg by</option>';currentLoc='';if(!v||!LOCATIONS[v])return;LOCATIONS[v].byer.forEach(b=>{const o=document.createElement('option');o.value=b.loc;o.textContent=b.label;s.appendChild(o);});s.value=LOCATIONS[v].byer[0].loc;currentLoc=LOCATIONS[v].byer[0].loc;const pm={oslo:'9000000',viken:'8000000',vestland:'7000000',rogaland:'7000000',trondelag:'6000000',innlandet:'5000000',vestfold:'5000000',agder:'5000000',more:'5000000',nordland:'5000000',troms:'5000000'};if(pm[v])document.getElementById('maksPris').value=pm[v];}
-function onByChange(v){currentLoc=v;}
+let mode='property', currentLoc='', currentCarLoc='', currentScore=10, currentSize=0, currentMerke='';
+
+// ─── LOCATION DATA ───────────────────────────────────────────────────────────
+const LOC={
+  oslo:{byer:[{l:'Oslo (hele)',v:'0.20061'},{l:'Oslo Vest',v:'1.20061.20532'},{l:'Oslo Nord',v:'1.20061.20529'},{l:'Oslo Øst',v:'1.20061.20528'},{l:'Oslo Sentrum',v:'1.20061.20513'},{l:'Oslo Syd',v:'1.20061.20520'}]},
+  viken:{byer:[{l:'Bærum',v:'1.20003.20045'},{l:'Asker',v:'1.20003.20046'},{l:'Drammen',v:'1.20007.20110'},{l:'Lier',v:'1.20007.20125'},{l:'Kongsberg',v:'1.20007.20107'},{l:'Fredrikstad',v:'1.20002.20024'},{l:'Sarpsborg',v:'1.20002.20023'},{l:'Moss',v:'1.20002.20022'},{l:'Vest for Oslo',v:'0.20003'}]},
+  innlandet:{byer:[{l:'Hamar',v:'1.22034.20063'},{l:'Lillehammer',v:'1.22034.20074'},{l:'Gjøvik',v:'1.22034.20058'},{l:'Elverum',v:'1.22034.20054'}]},
+  vestfold:{byer:[{l:'Tønsberg',v:'1.20005.20038'},{l:'Sandefjord',v:'1.20005.20036'},{l:'Larvik',v:'1.20005.20039'},{l:'Skien',v:'1.20008.20137'},{l:'Porsgrunn',v:'1.20008.20135'}]},
+  agder:{byer:[{l:'Kristiansand',v:'1.22042.20179'},{l:'Arendal',v:'1.22042.20168'},{l:'Grimstad',v:'1.22042.20172'}]},
+  rogaland:{byer:[{l:'Stavanger',v:'1.20012.20196'},{l:'Sandnes',v:'1.20012.20194'},{l:'Haugesund',v:'1.20012.20187'},{l:'Sola',v:'1.20012.20198'}]},
+  vestland:{byer:[{l:'Bergen',v:'1.22046.20220'},{l:'Bergen Vest',v:'1.22046.20222'},{l:'Askøy',v:'1.22046.20216'},{l:'Os',v:'1.22046.20232'},{l:'Sotra',v:'1.22046.20240'}]},
+  more:{byer:[{l:'Ålesund',v:'1.20015.20282'},{l:'Molde',v:'1.20015.20271'},{l:'Kristiansund',v:'1.20015.20266'}]},
+  trondelag:{byer:[{l:'Trondheim',v:'1.20016.20318'},{l:'Stjørdal',v:'1.20016.20311'},{l:'Steinkjer',v:'1.20017.20337'},{l:'Levanger',v:'1.20017.20326'}]},
+  nordland:{byer:[{l:'Bodø',v:'1.20018.20346'},{l:'Narvik',v:'1.20018.20361'},{l:'Mo i Rana',v:'1.20018.20357'}]},
+  troms:{byer:[{l:'Tromsø',v:'1.20019.20413'},{l:'Alta',v:'1.20019.20394'},{l:'Harstad',v:'1.20019.20400'}]},
+};
+const PRICE_MAP={oslo:'9000000',viken:'8000000',vestland:'7000000',rogaland:'7000000',trondelag:'6000000',innlandet:'5000000',vestfold:'5000000',agder:'5000000',more:'5000000',nordland:'5000000',troms:'5000000'};
+
+function fillBy(fylke, selId, valId, curRef){
+  const s=document.getElementById(selId);
+  s.innerHTML='<option value="">Hele fylket</option>';
+  if(!fylke||!LOC[fylke])return;
+  LOC[fylke].byer.forEach(b=>{const o=document.createElement('option');o.value=b.v;o.textContent=b.l;s.appendChild(o);});
+  if(LOC[fylke].byer.length){s.value=LOC[fylke].byer[0].v;return LOC[fylke].byer[0].v;}
+  return '';
+}
+
+function onFylke(v){
+  const loc=fillBy(v,'by','',null);
+  currentLoc=loc||'';
+  if(PRICE_MAP[v])document.getElementById('maksPris').value=PRICE_MAP[v];
+}
+function onBy(v){currentLoc=v;}
+function onCarFylke(v){
+  const loc=fillBy(v,'carBy','',null);
+  currentCarLoc=loc||'';
+}
+function onCarBy(v){currentCarLoc=v;}
+
 function setScore(v,e){currentScore=v;document.querySelectorAll('#scoreChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
 function setSize(v,e){currentSize=v;document.querySelectorAll('#sizeChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
-function setStatus(s,t){document.getElementById('statusDot').className='status-dot '+s;document.getElementById('statusTxt').textContent=t;}
+function setMerke(v,e){currentMerke=v;document.querySelectorAll('#merkeChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
+
+function setStatus(s,t){document.getElementById('sdot').className='sdot '+s;document.getElementById('stxt').textContent=t;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function scoreClass(s){if(s>=50)return'score-fire';if(s>=25)return'score-hot';return'score-ok';}
-function scoreEmoji(s){if(s>=70)return'🔥';if(s>=50)return'⭐';if(s>=30)return'💡';return'📌';}
-function propCard(l){const sc=l.score||0;const sqm=l.pris_per_kvm?`${l.pris_per_kvm.toLocaleString('nb-NO')} kr/m²`:'—';const signals=(l.reasons||[]).slice(0,3).map(r=>`<div class="signal-tag">${esc(r)}</div>`).join('');const data=esc(JSON.stringify(l));return`<div class="prop-card"><div class="card-image">${l.image?`<img src="${esc(l.image)}" loading="lazy" alt="">`:'<div class="card-image-placeholder">🏠</div>'}<div class="score-badge ${scoreClass(sc)}"><span>${scoreEmoji(sc)}</span><span class="score-num">${sc} poeng</span></div>${l.eierform?`<div class="eierform-badge">${esc(l.eierform)}</div>`:''}</div><div class="card-body"><div class="card-location">${esc(l.location)}</div><div class="card-title">${esc(l.title)}</div><div class="card-metrics"><div class="metric-box"><div class="metric-val">${esc(l.price||'—')}</div><div class="metric-lbl">Pris</div></div><div class="metric-box"><div class="metric-val">${esc(l.size||'—')}</div><div class="metric-lbl">Størrelse</div></div><div class="metric-box"><div class="metric-val green">${sqm}</div><div class="metric-lbl">kr/m²</div></div></div><div class="card-signals">${signals}</div><div class="card-actions"><a href="${esc(l.url||'#')}" target="_blank" class="btn-finn-link">Se på Finn.no →</a><button class="btn-ai-analyze" onclick='openAI(${data})'>✦ AI-analyse</button></div></div></div>`;}
-function soldCard(s){return`<div class="sold-card"><div class="sold-card-image">${s.image?`<img src="${esc(s.image)}" loading="lazy" alt="">`:'<div style="height:160px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#C8C0B4;background:#F7F4EF">🏘️</div>'}</div><div class="sold-card-body"><div class="sold-label">SOLGT</div><div class="sold-title">${esc(s.title||'')}</div><div class="sold-loc">${esc(s.location||s.sold_date||'')}</div><div class="sold-price-row"><div><div class="sold-price">${s.sold_price?s.sold_price.toLocaleString('nb-NO')+' kr':'—'}</div><div class="sold-size">${esc(s.size||'')}</div></div><div class="sold-sqm">${s.pris_per_kvm?s.pris_per_kvm.toLocaleString('nb-NO')+' kr/m²':''}</div></div></div></div>`;}
-async function runSearch(){const btn=document.getElementById('searchBtn');btn.disabled=true;btn.innerHTML=`<div class="spinner" style="width:16px;height:16px;border-width:2px;border-color:rgba(255,255,255,0.3);border-top-color:#fff"></div> Søker...`;setStatus('searching','Søker...');document.getElementById('emptyState').style.display='none';document.getElementById('loadingState').style.display='flex';document.getElementById('listingsGrid').innerHTML='';document.getElementById('statsBar').style.display='none';const msgs=['Henter boliger fra finn.no...','Beregner snitt-pris for området...','Analyserer nøkkelord og signaler...','Scorer og sorterer funnene...'];let mi=0;const iv=setInterval(()=>{document.getElementById('loadingMsg').textContent=msgs[mi++%msgs.length];},4000);const p=new URLSearchParams();if(currentLoc)p.set('lokasjon',currentLoc);const maks=document.getElementById('maksPris').value;if(maks)p.set('maks_pris',maks);if(currentSize>0)p.set('min_storrelse',currentSize);const bt=document.getElementById('boligtype').value;if(bt)p.set('boligtype',bt);p.set('sider',document.getElementById('sider').value);p.set('min_score',currentScore);const[lr,sr]=await Promise.allSettled([fetch(`${API}/search?${p}`).then(r=>r.json()),currentLoc?fetch(`${API}/sold?lokasjon=${currentLoc}&limit=24`).then(r=>r.json()):Promise.resolve(null)]);clearInterval(iv);document.getElementById('loadingState').style.display='none';if(lr.status==='fulfilled'){const d=lr.value;document.getElementById('sFound').textContent=d.count;document.getElementById('sTotal').textContent=d.total_scraped;document.getElementById('sAvg').textContent=d.area_avg_sqm?Math.round(d.area_avg_sqm).toLocaleString('nb-NO'):'—';const tb=document.getElementById('tabBadge');tb.textContent=d.count;tb.style.display=d.count?'inline-block':'none';if(!d.listings.length){document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML=`<div class="state-icon">🔍</div><div class="state-title">Ingen funn</div><div class="state-sub">Prøv lavere score, høyere maks-pris, eller et annet område.</div>`;}else{document.getElementById('listingsGrid').innerHTML=d.listings.map(propCard).join('');}setStatus('live',`${d.count} funn`);}else{setStatus('','Feil');document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML=`<div class="state-icon">⚠️</div><div class="state-title">Noe gikk galt</div><div class="state-sub">${lr.reason||'Ukjent feil'}</div>`;}document.getElementById('statsBar').style.display='flex';if(sr.status==='fulfilled'&&sr.value){const s=sr.value;document.getElementById('sSoldAvg').textContent=s.avg_sqm?Math.round(s.avg_sqm).toLocaleString('nb-NO'):'—';const sb=document.getElementById('soldBadge');sb.textContent=s.count;sb.style.display=s.count?'inline-block':'none';if(s.sales&&s.sales.length){document.getElementById('soldEmpty').style.display='none';document.getElementById('soldContent').style.display='block';document.getElementById('compNum').textContent=s.avg_sqm?Math.round(s.avg_sqm).toLocaleString('nb-NO')+' kr':'—';const byl=document.getElementById('bySelect').options[document.getElementById('bySelect').selectedIndex]?.text||'';document.getElementById('compDesc').textContent=`${s.count} siste omsatte boliger${byl?' i '+byl:''}`;document.getElementById('soldGrid').innerHTML=s.sales.map(soldCard).join('');}}btn.disabled=false;btn.innerHTML=`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Søk`;}
-function showTab(tab){document.getElementById('view-listings').style.display=tab==='listings'?'block':'none';document.getElementById('view-sold').style.display=tab==='sold'?'block':'none';document.getElementById('tab-listings').classList.toggle('active',tab==='listings');document.getElementById('tab-sold').classList.toggle('active',tab==='sold');document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',i===(tab==='listings'?0:1)));}
-async function openAI(l){document.getElementById('modalTitle').textContent=(l.title||'').substring(0,70);document.getElementById('aiModal').classList.add('open');document.getElementById('modalBody').innerHTML=`<div class="ai-thinking"><div class="ai-dots"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div><span class="ai-thinking-txt">Analyserer investeringspotensial...</span></div>`;const soldAvg=document.getElementById('sSoldAvg').textContent;const prompt=`Du er en norsk eiendomsinvestor med 20 års erfaring innen boligflipping. Vær direkte og konkret.\n\nOBJEKT:\n📍 ${l.location}\n📋 ${l.title}\n💰 Pris: ${l.price||'—'} | 📐 ${l.size||'—'} (${l.pris_per_kvm?l.pris_per_kvm.toLocaleString('nb-NO')+' kr/m²':'—'})\n🏠 ${l.eierform||'Ukjent eierform'} | Snitt solgt/m² i området: ${soldAvg} kr\n📊 Signaler: ${(l.reasons||[]).join(' | ')}\n\nSvar strukturert:\n\n**Score: X/10** — én setning om kjernepotensial.\n\n**Flippekalkyle**\n• Lett oppussing: X kr kost → salg X kr → netto X kr\n• Full oppussing: X kr kost → salg X kr → netto X kr\n\n**3 ting å sjekke på visning**\n1. ...\n2. ...\n3. ...\n\n**Konklusjon:** Kjøp / Vurder / Pass`;try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompt}]})});const d=await res.json();const html=(d.content?.[0]?.text||'Ingen respons.').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');document.getElementById('modalBody').innerHTML=`<div class="ai-content">${html}</div>`;}catch(e){document.getElementById('modalBody').innerHTML=`<div class="ai-content" style="color:#C0392B">Feil: ${e.message}</div>`;}}
+
+// ─── MODE SWITCH ─────────────────────────────────────────────────────────────
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-tab').forEach((b,i)=>b.classList.toggle('active',i===(m==='property'?0:1)));
+  document.getElementById('propSearch').style.display=m==='property'?'block':'none';
+  document.getElementById('carSearch').style.display=m==='car'?'block':'none';
+  document.getElementById('tab-sold').style.display=m==='property'?'flex':'none';
+  const mainTab=document.getElementById('tab-main');
+  document.getElementById('tabMainIcon').textContent=m==='property'?'🏚️':'🚗';
+  document.getElementById('tabMainLbl').textContent=m==='property'?'Oppussingsfunn':'Bilkjøp';
+  document.getElementById('emptyH').textContent=m==='property'?'Klar til å skanne markedet':'Finn underprisede elbiler';
+  document.getElementById('emptyP').textContent=m==='property'?'Velg fylke og by, juster filtre og trykk Søk.':'Velg fylke og drivstofftype, trykk Søk for å analysere markedspriser.';
+  document.getElementById('listingsGrid').style.display=m==='property'?'grid':'none';
+  document.getElementById('carGrid').style.display=m==='car'?'grid':'none';
+  document.getElementById('listingsGrid').innerHTML='';
+  document.getElementById('carGrid').innerHTML='';
+  document.getElementById('emptyState').style.display='flex';
+  document.getElementById('statsBar').style.display='none';
+  showTab('main');
+  if(m==='car') checkAlertConfig();
+}
+
+// ─── ALERT CONFIG ────────────────────────────────────────────────────────────
+async function checkAlertConfig(){
+  try{
+    const r=await fetch(`${API}/alert-config`);
+    const d=await r.json();
+    document.getElementById('alertStatus').textContent=d.configured?`✅ ${d.alert_email}`:'⚠️ Ikke konfigurert — se oppsett';
+  }catch(e){document.getElementById('alertStatus').textContent='⚠️ Kobling feilet';}
+}
+
+async function triggerScan(){
+  const fuel=document.getElementById('fuelType').value;
+  const loc=currentCarLoc||'';
+  try{
+    await fetch(`${API}/trigger-alert-scan?fuel=${fuel}&lokasjon=${loc}`,{method:'POST'});
+    document.getElementById('alertStatus').textContent='🔄 Scanning pågår...';
+    setTimeout(()=>checkAlertConfig(),3000);
+  }catch(e){console.error(e);}
+}
+
+// ─── PROPERTY SEARCH ─────────────────────────────────────────────────────────
+function scClass(s){if(s>=50)return'sf';if(s>=25)return'sh';return'so';}
+function scEmoji(s){if(s>=70)return'🔥';if(s>=50)return'⭐';if(s>=30)return'💡';return'📌';}
+
+function propCard(l){
+  const sc=l.score||0;
+  const sqm=l.pris_per_kvm?`${l.pris_per_kvm.toLocaleString('nb-NO')} kr/m²`:'—';
+  const sigs=(l.reasons||[]).slice(0,3).map(r=>`<div class="sig">${esc(r)}</div>`).join('');
+  const data=esc(JSON.stringify(l));
+  return`<div class="pcard">
+    <div class="cimg">${l.image?`<img src="${esc(l.image)}" loading="lazy" alt="">`:'<div class="cimg-ph">🏠</div>'}
+      <div class="sbadge ${scClass(sc)}"><span>${scEmoji(sc)}</span><span class="snum">${sc} poeng</span></div>
+      ${l.eierform?`<div class="efbadge">${esc(l.eierform)}</div>`:''}
+    </div>
+    <div class="cbody">
+      <div class="cloc">${esc(l.location)}</div>
+      <div class="ctitle">${esc(l.title)}</div>
+      <div class="cmetrics">
+        <div class="mbox"><div class="mv">${esc(l.price||'—')}</div><div class="mlb">Pris</div></div>
+        <div class="mbox"><div class="mv">${esc(l.size||'—')}</div><div class="mlb">Størrelse</div></div>
+        <div class="mbox"><div class="mv g">${sqm}</div><div class="mlb">kr/m²</div></div>
+      </div>
+      <div class="csigs">${sigs}</div>
+      <div class="cacts">
+        <a href="${esc(l.url||'#')}" target="_blank" class="btn-finn">Se på Finn →</a>
+        <button class="btn-ai" onclick='openAI(${data},"property")'>✦ AI-analyse</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function runPropertySearch(){
+  const btn=document.getElementById('propBtn');
+  btn.disabled=true;
+  btn.innerHTML='<div class="spinner" style="width:15px;height:15px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div> Søker...';
+  setStatus('busy','Søker...');
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('loadingState').style.display='flex';
+  document.getElementById('listingsGrid').innerHTML='';
+  document.getElementById('statsBar').style.display='none';
+  const msgs=['Henter boliger fra finn.no...','Beregner markedssnitt...','Analyserer nøkkelord...','Scorer og sorterer...'];
+  let mi=0;
+  const iv=setInterval(()=>{document.getElementById('loadMsg').textContent=msgs[mi++%msgs.length];},4000);
+  const p=new URLSearchParams();
+  if(currentLoc)p.set('lokasjon',currentLoc);
+  const maks=document.getElementById('maksPris').value;
+  if(maks)p.set('maks_pris',maks);
+  if(currentSize>0)p.set('min_storrelse',currentSize);
+  const bt=document.getElementById('boligtype').value;
+  if(bt)p.set('boligtype',bt);
+  p.set('sider',document.getElementById('sider').value);
+  p.set('min_score',currentScore);
+  const[lr,sr]=await Promise.allSettled([
+    fetch(`${API}/search?${p}`).then(r=>r.json()),
+    currentLoc?fetch(`${API}/sold?lokasjon=${currentLoc}&limit=24`).then(r=>r.json()):Promise.resolve(null)
+  ]);
+  clearInterval(iv);
+  document.getElementById('loadingState').style.display='none';
+  if(lr.status==='fulfilled'){
+    const d=lr.value;
+    document.getElementById('sFound').textContent=d.count;
+    document.getElementById('sTotal').textContent=d.total_scraped;
+    document.getElementById('sAvg').textContent=d.area_avg_sqm?Math.round(d.area_avg_sqm).toLocaleString('nb-NO'):'—';
+    document.getElementById('slFound').textContent='Oppussingsfunn';
+    document.getElementById('slAvg').textContent='Snitt kr/m² (marked)';
+    const tb=document.getElementById('mainBadge');tb.textContent=d.count;tb.style.display=d.count?'inline-block':'none';
+    if(!d.listings.length){document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML='<div class="state-ico">🔍</div><div class="state-h">Ingen funn</div><div class="state-p">Prøv lavere score, høyere maks-pris, eller et annet område.</div>';}
+    else{document.getElementById('listingsGrid').innerHTML=d.listings.map(propCard).join('');}
+    setStatus('live',`${d.count} funn`);
+  }else{setStatus('','Feil');document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML='<div class="state-ico">⚠️</div><div class="state-h">Noe gikk galt</div><div class="state-p">Sjekk at serveren kjører.</div>';}
+  document.getElementById('statsBar').style.display='flex';
+  if(sr.status==='fulfilled'&&sr.value){
+    const s=sr.value;
+    document.getElementById('sExtra').textContent=s.avg_sqm?Math.round(s.avg_sqm).toLocaleString('nb-NO'):'—';
+    document.getElementById('slExtra').textContent='Snitt kr/m² (solgt)';
+    const sb=document.getElementById('soldBadge');sb.textContent=s.count;sb.style.display=s.count?'inline-block':'none';
+    if(s.sales&&s.sales.length){
+      document.getElementById('soldEmpty').style.display='none';
+      document.getElementById('soldContent').style.display='block';
+      document.getElementById('compNum').textContent=s.avg_sqm?Math.round(s.avg_sqm).toLocaleString('nb-NO')+' kr':'—';
+      const byl=document.getElementById('by').options[document.getElementById('by').selectedIndex]?.text||'';
+      document.getElementById('compDesc').textContent=`${s.count} siste omsatte boliger${byl?' i '+byl:''}`;
+      document.getElementById('soldGrid').innerHTML=s.sales.map(soldCard).join('');
+    }
+  }
+  btn.disabled=false;
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk';
+}
+
+// ─── CAR SEARCH ──────────────────────────────────────────────────────────────
+function dealClass(pct){
+  if(pct===null||pct===undefined)return'deal-ok';
+  if(pct>=25)return'deal-fire';
+  if(pct>=10)return'deal-good';
+  if(pct<-10)return'deal-over';
+  return'deal-ok';
+}
+
+function dealLabel(pct){
+  if(pct===null||pct===undefined)return'? snitt';
+  if(pct>=25)return`🔥 ${pct.toFixed(0)}% under`;
+  if(pct>=10)return`💰 ${pct.toFixed(0)}% under`;
+  if(pct<-10)return`⚠️ ${Math.abs(pct).toFixed(0)}% over`;
+  return`≈ Markedssnitt`;
+}
+
+function carCard(c){
+  const pct=c.underpriset_pct;
+  const kr=c.underpriset_kr;
+  const avg=c.market_avg;
+  const isOver=pct!==null&&pct!==undefined&&pct<0;
+  const pctStr=pct!=null?`${pct>0?'+':''}${pct.toFixed(1)}%`:'—';
+  const krStr=kr!=null?`${Math.abs(kr).toLocaleString('nb-NO')} kr ${kr>0?'billigere':'dyrere'}`:'Ingen sammenligningsdata';
+  const avgStr=avg?`Markedssnitt: ${avg.toLocaleString('nb-NO')} kr`:``;
+  const sigs=(c.signals||[]).slice(0,4).map(s=>`<div class="car-sig">${esc(s)}</div>`).join('');
+  const data=esc(JSON.stringify(c));
+  const isAlert=c.alert_worthy;
+  return`<div class="ccar${isAlert?' alert-card':''}">
+    <div class="car-img">
+      ${c.image?`<img src="${esc(c.image)}" loading="lazy" alt="">`:'<div class="car-img-ph">🚗</div>'}
+      <div class="deal-badge ${dealClass(pct)}">${dealLabel(pct)}</div>
+      <div class="price-badge">
+        <div class="pb-price">${esc(c.price||'—')}</div>
+        ${c.year||c.km_str?`<div class="pb-sub">${[c.year,c.km_str].filter(Boolean).join(' · ')}</div>`:''}
+      </div>
+    </div>
+    <div class="carbody">
+      <div class="car-head">
+        <div class="car-title-wrap">
+          <div class="car-title">${esc(c.title||'')}</div>
+          <div class="car-loc">${esc(c.location||'')}</div>
+        </div>
+        ${pct!=null?`<div class="underpris-box">
+          <div class="up-pct ${isOver?'up-over':''}">${isOver?'':'-'}${Math.abs(pct).toFixed(0)}%</div>
+          <div class="up-kr ${isOver?'up-over':''}">${isOver?'over':'under'} snitt</div>
+        </div>`:''}
+      </div>
+      <div class="car-specs">
+        <div class="mbox"><div class="mv b">${kr!=null?Math.abs(kr).toLocaleString('nb-NO')+' kr':'-'}</div><div class="mlb">${kr!=null?(kr>0?'Billigere enn snitt':'Dyrere enn snitt'):'Prisavvik'}</div></div>
+        <div class="mbox"><div class="mv">${avg?avg.toLocaleString('nb-NO')+' kr':'-'}</div><div class="mlb">Markedssnitt</div></div>
+        <div class="mbox"><div class="mv">${c.market_count?c.market_count+' annonser':'-'}</div><div class="mlb">Sammenlignet</div></div>
+      </div>
+      <div class="car-sigs">${sigs}</div>
+      <div class="cacts">
+        <a href="${esc(c.url||'#')}" target="_blank" class="btn-finn">Se på Finn →</a>
+        <button class="btn-ai" onclick='openAI(${data},"car")'>✦ AI-vurdering</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function runCarSearch(){
+  const btn=document.getElementById('carBtn');
+  btn.disabled=true;
+  btn.innerHTML='<div class="spinner" style="width:15px;height:15px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div> Søker...';
+  setStatus('busy','Analyserer biler...');
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('loadingState').style.display='flex';
+  document.getElementById('carGrid').innerHTML='';
+  document.getElementById('statsBar').style.display='none';
+  document.getElementById('loadH').textContent='Analyserer bilmarkedet...';
+  const msgs=['Henter biler fra finn.no...','Beregner markedssnitt per modell...','Sammenligner priser...','Identifiserer underprisede biler...'];
+  let mi=0;
+  const iv=setInterval(()=>{document.getElementById('loadMsg').textContent=msgs[mi++%msgs.length];},5000);
+  const p=new URLSearchParams();
+  if(currentCarLoc)p.set('lokasjon',currentCarLoc);
+  const maks=document.getElementById('carMaksPris').value;
+  if(maks)p.set('maks_pris',maks);
+  const fuel=document.getElementById('fuelType').value;
+  if(fuel)p.set('fuel',fuel);
+  const yf=document.getElementById('yearFrom').value;
+  if(yf)p.set('year_from',yf);
+  const km=document.getElementById('maxKm').value;
+  if(km)p.set('max_km',km);
+  if(currentMerke)p.set('merke',currentMerke);
+  p.set('sider','2');
+  try{
+    const r=await fetch(`${API}/cars?${p}`);
+    const d=await r.json();
+    clearInterval(iv);
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('statsBar').style.display='flex';
+    document.getElementById('sFound').textContent=d.count;
+    document.getElementById('sTotal').textContent=d.total_scraped;
+    document.getElementById('slFound').textContent='Analysert';
+    // Avg underpriset
+    const ups=d.cars.filter(c=>c.underpriset_pct>0);
+    const avgUp=ups.length?Math.round(ups.reduce((a,c)=>a+c.underpriset_pct,0)/ups.length):0;
+    document.getElementById('sAvg').textContent=avgUp?avgUp+'%':'—';
+    document.getElementById('slAvg').textContent='Snitt underpriset';
+    document.getElementById('sExtra').textContent=d.alert_sent||0;
+    document.getElementById('slExtra').textContent='Varsler sendt';
+    const tb=document.getElementById('mainBadge');tb.textContent=d.count;tb.style.display=d.count?'inline-block':'none';
+    if(!d.cars.length){document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML='<div class="state-ico">🔍</div><div class="state-h">Ingen biler funnet</div><div class="state-p">Prøv å justere filtrene eller velg et annet område.</div>';}
+    else{document.getElementById('carGrid').innerHTML=d.cars.map(carCard).join('');}
+    setStatus('live',`${d.count} biler`);
+  }catch(e){
+    clearInterval(iv);
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('emptyState').style.display='flex';
+    document.getElementById('emptyState').innerHTML='<div class="state-ico">⚠️</div><div class="state-h">Noe gikk galt</div><div class="state-p">'+esc(e.message)+'</div>';
+    setStatus('','Feil');
+  }
+  btn.disabled=false;
+  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk';
+}
+
+// ─── SOLD ────────────────────────────────────────────────────────────────────
+function soldCard(s){
+  return`<div class="sold-card">
+    <div class="sold-img">${s.image?`<img src="${esc(s.image)}" loading="lazy" alt="">`:'<div style="height:140px;display:flex;align-items:center;justify-content:center;font-size:30px;color:#C8C0B4;background:#F7F4EF">🏘️</div>'}</div>
+    <div class="sold-body"><div class="sold-lbl">SOLGT</div><div class="sold-title">${esc(s.title||'')}</div><div class="sold-loc">${esc(s.location||s.sold_date||'')}</div>
+    <div class="sold-row"><div><div class="sold-price">${s.sold_price?s.sold_price.toLocaleString('nb-NO')+' kr':'—'}</div><div style="font-size:10px;color:var(--muted)">${esc(s.size||'')}</div></div><div class="sold-sqm">${s.pris_per_kvm?s.pris_per_kvm.toLocaleString('nb-NO')+' kr/m²':''}</div></div>
+    </div></div>`;
+}
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
+function showTab(tab){
+  document.getElementById('view-main').style.display=tab==='main'?'block':'none';
+  document.getElementById('view-sold').style.display=tab==='sold'?'block':'none';
+  document.getElementById('tab-main').classList.toggle('active',tab==='main');
+  document.getElementById('tab-sold').classList.toggle('active',tab==='sold');
+}
+
+// ─── AI MODAL ────────────────────────────────────────────────────────────────
+async function openAI(obj, type){
+  document.getElementById('mtitle').textContent=(obj.title||'').substring(0,70);
+  document.getElementById('aiModal').classList.add('open');
+  document.getElementById('mbody').innerHTML='<div class="ai-think"><div class="aidots"><div class="aid"></div><div class="aid"></div><div class="aid"></div></div><span class="aitxt">Analyserer investeringspotensial...</span></div>';
+
+  let prompt;
+  if(type==='car'){
+    const pct=obj.underpriset_pct;
+    const kr=obj.underpriset_kr;
+    prompt=`Du er en erfaren norsk bilhandler og flipper. Vær direkte og konkret.
+
+BIL:
+📋 ${obj.title}
+📍 ${obj.location||'Ukjent sted'}
+💰 Pris: ${obj.price||'—'} | År: ${obj.year||'?'} | Km: ${obj.km_str||'?'}
+📊 Markedssnitt for tilsvarende: ${obj.market_avg?obj.market_avg.toLocaleString('nb-NO')+' kr':'ukjent'} (${obj.market_count||0} annonser)
+${pct!=null?`📉 Underpriset: ${pct.toFixed(1)}% (${kr?Math.abs(kr).toLocaleString('nb-NO')+' kr':''})`:''} 
+🔋 Signaler: ${(obj.signals||[]).join(' | ')}
+
+Svar strukturert på norsk:
+
+**Vurdering: X/10** — én setning begrunnelse.
+
+**Flippekalkyle**
+• Kjøp: ${obj.price||'?'} | Forventet salgspris: X kr | Netto etter kostnader: X kr
+• Estimert tid på markedet: X uker
+
+**3 kritiske ting å sjekke**
+1. ...
+2. ...
+3. ...
+
+**Konklusjon:** Kjøp raskt / Vurder / Pass`;
+  } else {
+    prompt=`Du er en norsk eiendomsinvestor med 20 års erfaring. Vær direkte.
+
+OBJEKT:
+📍 ${obj.location}
+📋 ${obj.title}
+💰 ${obj.price||'—'} | 📐 ${obj.size||'—'} (${obj.pris_per_kvm?obj.pris_per_kvm.toLocaleString('nb-NO')+' kr/m²':'—'})
+📊 Signaler: ${(obj.reasons||[]).join(' | ')}
+
+**Flippekalkyle**
+• Lett oppussing: X kr → salg X kr → netto X kr
+• Full oppussing: X kr → salg X kr → netto X kr
+
+**3 ting å sjekke på visning**
+
+**Konklusjon:** Kjøp / Vurder / Pass`;
+  }
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompt}]})});
+    const d=await res.json();
+    const html=(d.content?.[0]?.text||'Ingen respons.').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+    document.getElementById('mbody').innerHTML=`<div class="ai-content">${html}</div>`;
+  }catch(e){
+    document.getElementById('mbody').innerHTML=`<div class="ai-content" style="color:var(--red)">Feil: ${esc(e.message)}</div>`;
+  }
+}
+
 function closeModal(){document.getElementById('aiModal').classList.remove('open');}
 document.getElementById('aiModal').addEventListener('click',e=>{if(e.target===document.getElementById('aiModal'))closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Enter'&&(e.ctrlKey||e.metaKey))runSearch();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){if(mode==='property')runPropertySearch();else runCarSearch();}
+});
 </script>
 </body>
 </html>
