@@ -303,19 +303,21 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
   <div id="carSearch" style="display:none">
     <div class="sg sg-car">
       <div class="fg">
-        <label class="fl">Hjemsted (hentested)</label>
+        <label class="fl">Hjemsted (henter fra)</label>
         <div class="sw"><select class="fs" id="hjemsted">
           <option value="">Hele Norge</option>
-          <optgroup label="🌲 Vest for Oslo">
+          <optgroup label="🌲 Østlandet">
             <option value="oslo">Oslo</option>
             <option value="drammen">Drammen</option>
           </optgroup>
-          <optgroup label="🏔️ Storbyene">
+          <optgroup label="🏔️ Vestlandet / Sør">
             <option value="bergen">Bergen</option>
-            <option value="trondheim">Trondheim</option>
             <option value="stavanger">Stavanger</option>
             <option value="kristiansand">Kristiansand</option>
             <option value="alesund">Ålesund</option>
+          </optgroup>
+          <optgroup label="🌲 Midt-Norge">
+            <option value="trondheim">Trondheim</option>
           </optgroup>
           <optgroup label="🌊 Nord-Norge">
             <option value="bodo">Bodø</option>
@@ -339,10 +341,9 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
       <div class="fg">
         <label class="fl">Maks pris</label>
         <div class="sw"><select class="fs" id="carMaksPris">
-          <option value="100000">100k</option>
-          <option value="200000">200k</option>
-          <option value="300000">300k</option>
-          <option value="400000">400k</option>
+          <option value="150000">150k</option>
+          <option value="250000">250k</option>
+          <option value="350000">350k</option>
           <option value="500000" selected>500k</option>
           <option value="700000">700k</option>
           <option value="1000000">1 mill</option>
@@ -381,7 +382,11 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
           <option value="">Alle typer</option>
         </select></div>
       </div>
-      <div class="fg"><label class="fl">&nbsp;</label><button class="btn-go" id="carBtn" onclick="runCarSearch()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk</button></div>
+      <div class="fg"><label class="fl">&nbsp;</label>
+        <button class="btn-go" id="carBtn" onclick="runCarSearch()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk
+        </button>
+      </div>
     </div>
     <div class="adv-row">
       <span class="adv-lbl">Merke</span>
@@ -403,28 +408,8 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
       <span class="alert-status" id="alertStatus">Sjekker...</span>
       <button class="btn-alert" onclick="triggerScan()">Skann nå</button>
     </div>
-    <div class="adv-row">
-      <span class="adv-lbl">Merke</span>
-      <div class="chips" id="merkeChips">
-        <button class="chip active" onclick="setMerke('',this)">Alle</button>
-        <button class="chip" onclick="setMerke('tesla',this)">Tesla</button>
-        <button class="chip" onclick="setMerke('volkswagen',this)">VW</button>
-        <button class="chip" onclick="setMerke('hyundai',this)">Hyundai</button>
-        <button class="chip" onclick="setMerke('kia',this)">Kia</button>
-        <button class="chip" onclick="setMerke('bmw',this)">BMW</button>
-        <button class="chip" onclick="setMerke('audi',this)">Audi</button>
-        <button class="chip" onclick="setMerke('nissan',this)">Nissan</button>
-        <button class="chip" onclick="setMerke('polestar',this)">Polestar</button>
-        <button class="chip" onclick="setMerke('volvo',this)">Volvo</button>
-      </div>
-    </div>
-    <div class="alert-banner" id="alertBanner">
-      <div class="alert-banner-txt"><b>📧 E-postvarsel aktivt</b> — Du varsles automatisk når biler er ≥30% under markedssnitt og ≥50 000 kr billigere</div>
-      <span class="alert-status" id="alertStatus">Sjekker...</span>
-      <button class="btn-alert" onclick="triggerScan()">Skann nå</button>
-    </div>
   </div>
-</div>
+
 
 <!-- VIEW TABS -->
 <div class="view-tabs" id="viewTabs">
@@ -539,13 +524,13 @@ function onFylke(v){
 function onBy(v){currentLoc=v;}
 function onCarFylke(v){
   const loc=fillBy(v,'carBy','',null);
-  currentCarLoc=loc||'';
+  // location handled by hjemsted dropdown
 }
-function onCarBy(v){currentCarLoc=v;}
+function onCarBy(v){// handled by hjemsted
 
 function setScore(v,e){currentScore=v;document.querySelectorAll('#scoreChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
 function setSize(v,e){currentSize=v;document.querySelectorAll('#sizeChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
-function setMerke(v,e){currentMerke=v;document.querySelectorAll('#merkeChips .chip').forEach(c=>c.classList.remove('active'));e.classList.add('active');}
+// setMerke defined in car section below
 
 function setStatus(s,t){document.getElementById('sdot').className='sdot '+s;document.getElementById('stxt').textContent=t;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -582,10 +567,11 @@ async function checkAlertConfig(){
 }
 
 async function triggerScan(){
-  const fuel=document.getElementById('fuelType').value;
-  const loc=currentCarLoc||'';
+  const fuel=document.getElementById('fuelType').value||'ELECTRIC';
+  const hjemsted=document.getElementById('hjemsted')?.value||'';
+  const radiusH=document.getElementById('radiusH')?.value||'99';
   try{
-    await fetch(`${API}/trigger-alert-scan?fuel=${fuel}&lokasjon=${loc}`,{method:'POST'});
+    await fetch(`${API}/trigger-alert-scan?fuel=${fuel}&hjemsted=${hjemsted}&radius_h=${radiusH}`,{method:'POST'});
     document.getElementById('alertStatus').textContent='🔄 Scanning pågår...';
     setTimeout(()=>checkAlertConfig(),3000);
   }catch(e){console.error(e);}
@@ -681,8 +667,6 @@ async function runPropertySearch(){
 }
 
 // ─── CAR SEARCH ──────────────────────────────────────────────────────────────
-let currentMerke = '';
-
 function setMerke(v, e) {
   currentMerke = v;
   document.querySelectorAll('#merkeChips .chip').forEach(c => c.classList.remove('active'));
