@@ -218,6 +218,13 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
   .hero-heading{font-size:26px}
   .logo-tag{display:none}
 }
+
+.mv.r{color:var(--red)}
+.red-flags-box{background:#FDECEA;border:1px solid #F5C6C2;border-radius:7px;padding:8px 10px;margin-bottom:10px}
+.rflag{font-size:11px;color:var(--red);font-weight:600;line-height:1.6}
+.flag-card{border-color:#E8A09A!important}
+.btn-compare{flex:1;padding:9px;background:var(--bpale);border:1.5px solid #C5D8F0;color:var(--blue);border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;font-family:'DM Sans',sans-serif;transition:background .12s;display:flex;align-items:center;justify-content:center;gap:4px}
+.btn-compare:hover{background:#D0E4F5}
 </style>
 </head>
 <body>
@@ -252,7 +259,21 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
   <!-- PROPERTY SEARCH -->
   <div id="propSearch">
     <div class="sg sg-property">
-      <div class="fg"><label class="fl">Fylke</label><div class="sw"><select class="fs" id="fylke" onchange="onFylke(this.value)"><option value="">Velg fylke</option><option value="oslo">Oslo</option><option value="viken">Viken</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland</option><option value="troms">Troms og Finnmark</option></select></div></div>
+      <div class="fg"><label class="fl">Fylke</label><div class="sw"><select class="fs" id="fylke" onchange="onFylke(this.value)"><option value="">Velg fylke</option><option value="oslo">Oslo</option><option value="viken">Viken</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland (fylke)</option>
+          <optgroup label="── Vesterålen">
+            <option value="sortland">Sortland / Hadsel</option>
+            <option value="oksnes">Øksnes (Myre)</option>
+            <option value="andoy">Andøy</option>
+          </optgroup>
+          <optgroup label="── Lofoten">
+            <option value="svolvaer">Svolvær / Vågan</option>
+            <option value="leknes">Leknes / Vestvågøy</option>
+          </optgroup>
+          <optgroup label="── Øvrige Nordland">
+            <option value="bodo">Bodø</option>
+            <option value="narvik">Narvik</option>
+            <option value="moirana">Mo i Rana</option>
+          </optgroup><option value="troms">Troms og Finnmark</option></select></div></div>
       <div class="fg"><label class="fl">By / Kommune</label><div class="sw"><select class="fs" id="by" onchange="onBy(this.value)"><option value="">Velg fylke først</option></select></div></div>
       <div class="fg"><label class="fl">Maks pris</label><div class="sw"><select class="fs" id="maksPris"><option value="4000000">4 mill</option><option value="5000000">5 mill</option><option value="6000000">6 mill</option><option value="7000000" selected>7 mill</option><option value="8000000">8 mill</option><option value="10000000">10 mill</option><option value="15000000">15 mill</option><option value="">Ingen grense</option></select></div></div>
       <div class="fg"><label class="fl">Boligtype</label><div class="sw"><select class="fs" id="boligtype"><option value="">Alle</option><option value="3">Leilighet</option><option value="1">Enebolig</option><option value="2">Tomannsbolig</option><option value="4">Rekkehus</option></select></div></div>
@@ -281,13 +302,106 @@ body{background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-se
   <!-- CAR SEARCH -->
   <div id="carSearch" style="display:none">
     <div class="sg sg-car">
-      <div class="fg"><label class="fl">Fylke</label><div class="sw"><select class="fs" id="carFylke" onchange="onCarFylke(this.value)"><option value="">Hele Norge</option><option value="oslo">Oslo</option><option value="viken">Viken</option><option value="innlandet">Innlandet</option><option value="vestfold">Vestfold og Telemark</option><option value="agder">Agder</option><option value="rogaland">Rogaland</option><option value="vestland">Vestland (Bergen)</option><option value="more">Møre og Romsdal</option><option value="trondelag">Trøndelag</option><option value="nordland">Nordland</option><option value="troms">Troms og Finnmark</option></select></div></div>
-      <div class="fg"><label class="fl">By / Region</label><div class="sw"><select class="fs" id="carBy" onchange="onCarBy(this.value)"><option value="">Hele fylket</option></select></div></div>
-      <div class="fg"><label class="fl">Maks pris</label><div class="sw"><select class="fs" id="carMaksPris"><option value="100000">100k</option><option value="200000">200k</option><option value="300000">300k</option><option value="400000">400k</option><option value="500000" selected>500k</option><option value="700000">700k</option><option value="1000000">1 mill</option><option value="">Ingen grense</option></select></div></div>
-      <div class="fg"><label class="fl">Årsmodell fra</label><div class="sw"><select class="fs" id="yearFrom"><option value="">Alle år</option><option value="2018">2018+</option><option value="2019">2019+</option><option value="2020">2020+</option><option value="2021">2021+</option><option value="2022">2022+</option><option value="2023">2023+</option></select></div></div>
-      <div class="fg"><label class="fl">Maks km</label><div class="sw"><select class="fs" id="maxKm"><option value="">Alle</option><option value="30000">Under 30 000</option><option value="60000">Under 60 000</option><option value="100000">Under 100 000</option><option value="150000">Under 150 000</option></select></div></div>
-      <div class="fg"><label class="fl">Drivstoff</label><div class="sw"><select class="fs" id="fuelType"><option value="2">Elektrisk (elbil)</option><option value="1">Bensin</option><option value="3">Diesel</option><option value="7">Hybrid</option><option value="">Alle</option></select></div></div>
+      <div class="fg">
+        <label class="fl">Hjemsted (hentested)</label>
+        <div class="sw"><select class="fs" id="hjemsted">
+          <option value="">Hele Norge</option>
+          <optgroup label="🌲 Vest for Oslo">
+            <option value="oslo">Oslo</option>
+            <option value="drammen">Drammen</option>
+          </optgroup>
+          <optgroup label="🏔️ Storbyene">
+            <option value="bergen">Bergen</option>
+            <option value="trondheim">Trondheim</option>
+            <option value="stavanger">Stavanger</option>
+            <option value="kristiansand">Kristiansand</option>
+            <option value="alesund">Ålesund</option>
+          </optgroup>
+          <optgroup label="🌊 Nord-Norge">
+            <option value="bodo">Bodø</option>
+            <option value="narvik">Narvik</option>
+            <option value="tromso">Tromsø</option>
+            <option value="sortland">Sortland / Vesterålen</option>
+            <option value="svolvaer">Svolvær / Lofoten</option>
+          </optgroup>
+        </select></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Maks kjøretid</label>
+        <div class="sw"><select class="fs" id="radiusH">
+          <option value="1">1 time (~70 km)</option>
+          <option value="2">2 timer (~130 km)</option>
+          <option value="3" selected>3 timer (~200 km)</option>
+          <option value="5">5 timer (~350 km)</option>
+          <option value="99">Hele Norge</option>
+        </select></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Maks pris</label>
+        <div class="sw"><select class="fs" id="carMaksPris">
+          <option value="100000">100k</option>
+          <option value="200000">200k</option>
+          <option value="300000">300k</option>
+          <option value="400000">400k</option>
+          <option value="500000" selected>500k</option>
+          <option value="700000">700k</option>
+          <option value="1000000">1 mill</option>
+          <option value="">Ingen grense</option>
+        </select></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Årsmodell fra</label>
+        <div class="sw"><select class="fs" id="yearFrom">
+          <option value="">Alle år</option>
+          <option value="2018">2018+</option>
+          <option value="2019">2019+</option>
+          <option value="2020" selected>2020+</option>
+          <option value="2021">2021+</option>
+          <option value="2022">2022+</option>
+          <option value="2023">2023+</option>
+        </select></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Maks km</label>
+        <div class="sw"><select class="fs" id="maxKm">
+          <option value="">Alle</option>
+          <option value="30000">Under 30 000</option>
+          <option value="60000" selected>Under 60 000</option>
+          <option value="100000">Under 100 000</option>
+          <option value="150000">Under 150 000</option>
+        </select></div>
+      </div>
+      <div class="fg">
+        <label class="fl">Drivstoff</label>
+        <div class="sw"><select class="fs" id="fuelType">
+          <option value="ELECTRIC">Elektrisk (elbil)</option>
+          <option value="PETROL">Bensin</option>
+          <option value="DIESEL">Diesel</option>
+          <option value="HYBRID_PETROL">Hybrid</option>
+          <option value="">Alle typer</option>
+        </select></div>
+      </div>
       <div class="fg"><label class="fl">&nbsp;</label><button class="btn-go" id="carBtn" onclick="runCarSearch()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk</button></div>
+    </div>
+    <div class="adv-row">
+      <span class="adv-lbl">Merke</span>
+      <div class="chips" id="merkeChips">
+        <button class="chip active" onclick="setMerke('',this)">Alle elbiler</button>
+        <button class="chip" onclick="setMerke('TESLA',this)">Tesla</button>
+        <button class="chip" onclick="setMerke('VOLKSWAGEN',this)">VW</button>
+        <button class="chip" onclick="setMerke('HYUNDAI',this)">Hyundai</button>
+        <button class="chip" onclick="setMerke('KIA',this)">Kia</button>
+        <button class="chip" onclick="setMerke('BMW',this)">BMW</button>
+        <button class="chip" onclick="setMerke('AUDI',this)">Audi</button>
+        <button class="chip" onclick="setMerke('NISSAN',this)">Nissan</button>
+        <button class="chip" onclick="setMerke('POLESTAR',this)">Polestar</button>
+        <button class="chip" onclick="setMerke('VOLVO',this)">Volvo</button>
+      </div>
+    </div>
+    <div class="alert-banner" id="alertBanner">
+      <div class="alert-banner-txt"><b>📧 E-postvarsel aktivt</b> — Varsles når biler er ≥30% under snitt og ≥50 000 kr billigere</div>
+      <span class="alert-status" id="alertStatus">Sjekker...</span>
+      <button class="btn-alert" onclick="triggerScan()">Skann nå</button>
     </div>
     <div class="adv-row">
       <span class="adv-lbl">Merke</span>
@@ -395,7 +509,15 @@ const LOC={
   vestland:{byer:[{l:'Bergen',v:'1.22046.20220'},{l:'Bergen Vest',v:'1.22046.20222'},{l:'Askøy',v:'1.22046.20216'},{l:'Os',v:'1.22046.20232'},{l:'Sotra',v:'1.22046.20240'}]},
   more:{byer:[{l:'Ålesund',v:'1.20015.20282'},{l:'Molde',v:'1.20015.20271'},{l:'Kristiansund',v:'1.20015.20266'}]},
   trondelag:{byer:[{l:'Trondheim',v:'1.20016.20318'},{l:'Stjørdal',v:'1.20016.20311'},{l:'Steinkjer',v:'1.20017.20337'},{l:'Levanger',v:'1.20017.20326'}]},
-  nordland:{byer:[{l:'Bodø',v:'1.20018.20346'},{l:'Narvik',v:'1.20018.20361'},{l:'Mo i Rana',v:'1.20018.20357'}]},
+  nordland:{byer:[{l:'Nordland (hele)',v:'0.20018'},{l:'Bodø',v:'1.20018.20346'},{l:'Narvik',v:'1.20018.20361'},{l:'Mo i Rana',v:'1.20018.20357'},{l:'Sortland',v:'1.20018.20370'},{l:'Svolvær',v:'1.20018.20363'},{l:'Leknes',v:'1.20018.20360'}]},
+  sortland:{byer:[{l:'Sortland / Hadsel',v:'1.20018.20370'},{l:'Øksnes (Myre)',v:'1.20018.20374'},{l:'Andøy',v:'1.20018.20341'},{l:'Bø i Vesterålen',v:'1.20018.20350'}]},
+  oksnes:{byer:[{l:'Øksnes',v:'1.20018.20374'}]},
+  andoy:{byer:[{l:'Andøy',v:'1.20018.20341'}]},
+  svolvaer:{byer:[{l:'Svolvær / Vågan',v:'1.20018.20363'},{l:'Leknes / Vestvågøy',v:'1.20018.20360'},{l:'Flakstad',v:'1.20018.20354'},{l:'Moskenes',v:'1.20018.20362'}]},
+  leknes:{byer:[{l:'Leknes / Vestvågøy',v:'1.20018.20360'},{l:'Flakstad',v:'1.20018.20354'},{l:'Moskenes (Å i Lofoten)',v:'1.20018.20362'}]},
+  bodo:{byer:[{l:'Bodø',v:'1.20018.20346'},{l:'Fauske',v:'1.20018.20352'},{l:'Saltdal',v:'1.20018.20368'}]},
+  narvik:{byer:[{l:'Narvik',v:'1.20018.20361'},{l:'Evenes',v:'1.20018.20353'}]},
+  moirana:{byer:[{l:'Mo i Rana',v:'1.20018.20357'},{l:'Hemnes',v:'1.20018.20355'}]},
   troms:{byer:[{l:'Tromsø',v:'1.20019.20413'},{l:'Alta',v:'1.20019.20394'},{l:'Harstad',v:'1.20019.20400'}]},
 };
 const PRICE_MAP={oslo:'9000000',viken:'8000000',vestland:'7000000',rogaland:'7000000',trondelag:'6000000',innlandet:'5000000',vestfold:'5000000',agder:'5000000',more:'5000000',nordland:'5000000',troms:'5000000'};
@@ -559,121 +681,167 @@ async function runPropertySearch(){
 }
 
 // ─── CAR SEARCH ──────────────────────────────────────────────────────────────
-function dealClass(pct){
-  if(pct===null||pct===undefined)return'deal-ok';
-  if(pct>=25)return'deal-fire';
-  if(pct>=10)return'deal-good';
-  if(pct<-10)return'deal-over';
-  return'deal-ok';
+let currentMerke = '';
+
+function setMerke(v, e) {
+  currentMerke = v;
+  document.querySelectorAll('#merkeChips .chip').forEach(c => c.classList.remove('active'));
+  e.classList.add('active');
 }
 
-function dealLabel(pct){
-  if(pct===null||pct===undefined)return'? snitt';
-  if(pct>=25)return`🔥 ${pct.toFixed(0)}% under`;
-  if(pct>=10)return`💰 ${pct.toFixed(0)}% under`;
-  if(pct<-10)return`⚠️ ${Math.abs(pct).toFixed(0)}% over`;
-  return`≈ Markedssnitt`;
+function dealClass(pct) {
+  if (pct === null || pct === undefined) return 'deal-ok';
+  if (pct >= 25) return 'deal-fire';
+  if (pct >= 10) return 'deal-good';
+  if (pct < -10) return 'deal-over';
+  return 'deal-ok';
 }
 
-function carCard(c){
-  const pct=c.underpriset_pct;
-  const kr=c.underpriset_kr;
-  const avg=c.market_avg;
-  const isOver=pct!==null&&pct!==undefined&&pct<0;
-  const pctStr=pct!=null?`${pct>0?'+':''}${pct.toFixed(1)}%`:'—';
-  const krStr=kr!=null?`${Math.abs(kr).toLocaleString('nb-NO')} kr ${kr>0?'billigere':'dyrere'}`:'Ingen sammenligningsdata';
-  const avgStr=avg?`Markedssnitt: ${avg.toLocaleString('nb-NO')} kr`:``;
-  const sigs=(c.signals||[]).slice(0,4).map(s=>`<div class="car-sig">${esc(s)}</div>`).join('');
-  const data=esc(JSON.stringify(c));
-  const isAlert=c.alert_worthy;
-  return`<div class="ccar${isAlert?' alert-card':''}">
+function dealLabel(pct) {
+  if (pct === null || pct === undefined) return '? snitt';
+  if (pct >= 25) return `🔥 ${pct.toFixed(0)}% under`;
+  if (pct >= 10) return `💰 ${pct.toFixed(0)}% under`;
+  if (pct < -10) return `⚠️ ${Math.abs(pct).toFixed(0)}% over`;
+  return '≈ Markedssnitt';
+}
+
+function fmtKr(n) {
+  if (!n && n !== 0) return '—';
+  return Math.abs(n).toLocaleString('nb-NO') + ' kr';
+}
+
+function carCard(c) {
+  const pct = c.underpriset_pct;
+  const kr = c.underpriset_kr;
+  const avg = c.market_avg;
+  const isOver = pct !== null && pct !== undefined && pct < 0;
+  const redFlags = (c.red_flags || []);
+  const allSigs = (c.signals || []).slice(0, 5);
+  const data = esc(JSON.stringify(c));
+  const compUrl = esc(c.comparison_url || '#');
+  const hasFlags = redFlags.length > 0;
+
+  const pctDisp = pct != null ? `${Math.abs(pct).toFixed(0)}%` : '—';
+  const krDisp = kr != null ? fmtKr(kr) : '—';
+
+  return `<div class="ccar${c.alert_worthy ? ' alert-card' : ''}${hasFlags ? ' flag-card' : ''}">
     <div class="car-img">
-      ${c.image?`<img src="${esc(c.image)}" loading="lazy" alt="">`:'<div class="car-img-ph">🚗</div>'}
+      ${c.image ? `<img src="${esc(c.image)}" loading="lazy" alt="">` : '<div class="car-img-ph">🚗</div>'}
       <div class="deal-badge ${dealClass(pct)}">${dealLabel(pct)}</div>
       <div class="price-badge">
-        <div class="pb-price">${esc(c.price||'—')}</div>
-        ${c.year||c.km_str?`<div class="pb-sub">${[c.year,c.km_str].filter(Boolean).join(' · ')}</div>`:''}
+        <div class="pb-price">${esc(c.price || '—')}</div>
+        ${(c.year || c.km_str) ? `<div class="pb-sub">${[c.year, c.km_str, c.fuel_label].filter(Boolean).join(' · ')}</div>` : ''}
       </div>
     </div>
     <div class="carbody">
       <div class="car-head">
         <div class="car-title-wrap">
-          <div class="car-title">${esc(c.title||'')}</div>
-          <div class="car-loc">${esc(c.location||'')}</div>
+          <div class="car-title">${esc(c.title || '')}</div>
+          <div class="car-loc">${esc(c.location || '')}</div>
         </div>
-        ${pct!=null?`<div class="underpris-box">
-          <div class="up-pct ${isOver?'up-over':''}">${isOver?'':'-'}${Math.abs(pct).toFixed(0)}%</div>
-          <div class="up-kr ${isOver?'up-over':''}">${isOver?'over':'under'} snitt</div>
-        </div>`:''}
+        ${pct != null ? `<div class="underpris-box">
+          <div class="up-pct ${isOver ? 'up-over' : ''}">${isOver ? '+' : '-'}${pctDisp}</div>
+          <div class="up-kr ${isOver ? 'up-over' : ''}">${isOver ? 'dyrere' : 'billigere'} enn snitt</div>
+        </div>` : ''}
       </div>
       <div class="car-specs">
-        <div class="mbox"><div class="mv b">${kr!=null?Math.abs(kr).toLocaleString('nb-NO')+' kr':'-'}</div><div class="mlb">${kr!=null?(kr>0?'Billigere enn snitt':'Dyrere enn snitt'):'Prisavvik'}</div></div>
-        <div class="mbox"><div class="mv">${avg?avg.toLocaleString('nb-NO')+' kr':'-'}</div><div class="mlb">Markedssnitt</div></div>
-        <div class="mbox"><div class="mv">${c.market_count?c.market_count+' annonser':'-'}</div><div class="mlb">Sammenlignet</div></div>
+        <div class="mbox">
+          <div class="mv ${!isOver && kr > 0 ? 'g' : isOver ? 'r' : ''}">${kr != null ? fmtKr(kr) : '—'}</div>
+          <div class="mlb">${kr != null ? (kr > 0 ? 'Billigere enn snitt' : 'Dyrere enn snitt') : 'Prisavvik'}</div>
+        </div>
+        <div class="mbox">
+          <div class="mv">${avg ? avg.toLocaleString('nb-NO') + ' kr' : '—'}</div>
+          <div class="mlb">Markedssnitt ${c.market_count ? '(' + c.market_count + ' annonser)' : ''}</div>
+        </div>
+        <div class="mbox">
+          <div class="mv">${c.range_km ? c.range_km + ' km' : c.km_str || '—'}</div>
+          <div class="mlb">${c.range_km ? 'Rekkevidde' : 'Kilometerstand'}</div>
+        </div>
       </div>
-      <div class="car-sigs">${sigs}</div>
+      ${hasFlags ? `<div class="red-flags-box">${redFlags.map(f => `<div class="rflag">${esc(f)}</div>`).join('')}</div>` : ''}
+      <div class="car-sigs">${allSigs.filter(s => !redFlags.includes(s)).slice(0,3).map(s => `<div class="car-sig">${esc(s)}</div>`).join('')}</div>
       <div class="cacts">
-        <a href="${esc(c.url||'#')}" target="_blank" class="btn-finn">Se på Finn →</a>
-        <button class="btn-ai" onclick='openAI(${data},"car")'>✦ AI-vurdering</button>
+        <a href="${esc(c.url || '#')}" target="_blank" class="btn-finn">Åpne annonse →</a>
+        <a href="${compUrl}" target="_blank" class="btn-compare" title="Se alle tilsvarende biler sortert billigst">📊 Sammenlign</a>
+        <button class="btn-ai" onclick='openAI(${data},"car")'>✦ AI</button>
       </div>
     </div>
   </div>`;
 }
 
-async function runCarSearch(){
-  const btn=document.getElementById('carBtn');
-  btn.disabled=true;
-  btn.innerHTML='<div class="spinner" style="width:15px;height:15px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div> Søker...';
-  setStatus('busy','Analyserer biler...');
-  document.getElementById('emptyState').style.display='none';
-  document.getElementById('loadingState').style.display='flex';
-  document.getElementById('carGrid').innerHTML='';
-  document.getElementById('statsBar').style.display='none';
-  document.getElementById('loadH').textContent='Analyserer bilmarkedet...';
-  const msgs=['Henter biler fra finn.no...','Beregner markedssnitt per modell...','Sammenligner priser...','Identifiserer underprisede biler...'];
-  let mi=0;
-  const iv=setInterval(()=>{document.getElementById('loadMsg').textContent=msgs[mi++%msgs.length];},5000);
-  const p=new URLSearchParams();
-  if(currentCarLoc)p.set('lokasjon',currentCarLoc);
-  const maks=document.getElementById('carMaksPris').value;
-  if(maks)p.set('maks_pris',maks);
-  const fuel=document.getElementById('fuelType').value;
-  if(fuel)p.set('fuel',fuel);
-  const yf=document.getElementById('yearFrom').value;
-  if(yf)p.set('year_from',yf);
-  const km=document.getElementById('maxKm').value;
-  if(km)p.set('max_km',km);
-  if(currentMerke)p.set('merke',currentMerke);
-  p.set('sider','2');
-  try{
-    const r=await fetch(`${API}/cars?${p}`);
-    const d=await r.json();
+async function runCarSearch() {
+  const btn = document.getElementById('carBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:15px;height:15px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff"></div> Analyserer...';
+  setStatus('busy', 'Søker...');
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'flex';
+  document.getElementById('carGrid').innerHTML = '';
+  document.getElementById('statsBar').style.display = 'none';
+  document.getElementById('loadH').textContent = 'Analyserer bilmarkedet...';
+
+  const msgs = [
+    'Henter biler fra finn.no...',
+    'Filtrerer kun elektriske...',
+    'Beregner markedssnitt per modell...',
+    'Identifiserer underprisede biler...',
+    'Sjekker røde flagg og skaderisiko...'
+  ];
+  let mi = 0;
+  const iv = setInterval(() => { document.getElementById('loadMsg').textContent = msgs[mi++ % msgs.length]; }, 5000);
+
+  const p = new URLSearchParams();
+  const hjemsted = document.getElementById('hjemsted').value;
+  const radiusH = document.getElementById('radiusH').value;
+  if (hjemsted) p.set('hjemsted', hjemsted);
+  p.set('radius_h', radiusH);
+  const maks = document.getElementById('carMaksPris').value;
+  if (maks) p.set('maks_pris', maks);
+  const fuel = document.getElementById('fuelType').value;
+  if (fuel) p.set('fuel', fuel);
+  const yf = document.getElementById('yearFrom').value;
+  if (yf) p.set('year_from', yf);
+  const km = document.getElementById('maxKm').value;
+  if (km) p.set('max_km', km);
+  if (currentMerke) p.set('merke', currentMerke);
+
+  try {
+    const r = await fetch(`${API}/cars?${p}`);
+    const d = await r.json();
     clearInterval(iv);
-    document.getElementById('loadingState').style.display='none';
-    document.getElementById('statsBar').style.display='flex';
-    document.getElementById('sFound').textContent=d.count;
-    document.getElementById('sTotal').textContent=d.total_scraped;
-    document.getElementById('slFound').textContent='Analysert';
-    // Avg underpriset
-    const ups=d.cars.filter(c=>c.underpriset_pct>0);
-    const avgUp=ups.length?Math.round(ups.reduce((a,c)=>a+c.underpriset_pct,0)/ups.length):0;
-    document.getElementById('sAvg').textContent=avgUp?avgUp+'%':'—';
-    document.getElementById('slAvg').textContent='Snitt underpriset';
-    document.getElementById('sExtra').textContent=d.alert_sent||0;
-    document.getElementById('slExtra').textContent='Varsler sendt';
-    const tb=document.getElementById('mainBadge');tb.textContent=d.count;tb.style.display=d.count?'inline-block':'none';
-    if(!d.cars.length){document.getElementById('emptyState').style.display='flex';document.getElementById('emptyState').innerHTML='<div class="state-ico">🔍</div><div class="state-h">Ingen biler funnet</div><div class="state-p">Prøv å justere filtrene eller velg et annet område.</div>';}
-    else{document.getElementById('carGrid').innerHTML=d.cars.map(carCard).join('');}
-    setStatus('live',`${d.count} biler`);
-  }catch(e){
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('statsBar').style.display = 'flex';
+
+    document.getElementById('sFound').textContent = d.count;
+    document.getElementById('sTotal').textContent = d.total_scraped;
+    document.getElementById('slFound').textContent = 'Analysert';
+
+    const ups = d.cars.filter(c => c.underpriset_pct > 0);
+    const avgUp = ups.length ? Math.round(ups.reduce((a, c) => a + c.underpriset_pct, 0) / ups.length) : 0;
+    document.getElementById('sAvg').textContent = avgUp ? avgUp + '%' : '—';
+    document.getElementById('slAvg').textContent = 'Snitt underpriset';
+    document.getElementById('sExtra').textContent = d.alert_sent || 0;
+    document.getElementById('slExtra').textContent = 'Varsler sendt';
+
+    const tb = document.getElementById('mainBadge');
+    tb.textContent = d.count; tb.style.display = d.count ? 'inline-block' : 'none';
+
+    if (!d.cars.length) {
+      document.getElementById('emptyState').style.display = 'flex';
+      document.getElementById('emptyState').innerHTML = '<div class="state-ico">🔍</div><div class="state-h">Ingen biler funnet</div><div class="state-p">Prøv å justere filtrene, velg et større område eller en annen årsmodell.</div>';
+    } else {
+      document.getElementById('carGrid').innerHTML = d.cars.map(carCard).join('');
+    }
+    setStatus('live', `${d.count} biler`);
+  } catch (e) {
     clearInterval(iv);
-    document.getElementById('loadingState').style.display='none';
-    document.getElementById('emptyState').style.display='flex';
-    document.getElementById('emptyState').innerHTML='<div class="state-ico">⚠️</div><div class="state-h">Noe gikk galt</div><div class="state-p">'+esc(e.message)+'</div>';
-    setStatus('','Feil');
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'flex';
+    document.getElementById('emptyState').innerHTML = '<div class="state-ico">⚠️</div><div class="state-h">Noe gikk galt</div><div class="state-p">' + esc(String(e)) + '</div>';
+    setStatus('', 'Feil');
   }
-  btn.disabled=false;
-  btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk';
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Søk';
 }
 
 // ─── SOLD ────────────────────────────────────────────────────────────────────
